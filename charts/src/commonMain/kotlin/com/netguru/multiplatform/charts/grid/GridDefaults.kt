@@ -1,8 +1,8 @@
 package com.netguru.multiplatform.charts.grid
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -31,15 +31,16 @@ internal object GridDefaults {
             text = value.toString(),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.overline
+            style = MaterialTheme.typography.labelSmall
         )
     }
 
-    val OverlayDataEntryLabel: @Composable (dataName: String, value: Any) -> Unit = { dataName, value ->
-        Text(
-            text = "$dataName: $value"
-        )
-    }
+    val OverlayDataEntryLabel: @Composable (dataName: String, value: Any) -> Unit =
+        { dataName, value ->
+            Text(
+                text = "$dataName: $value"
+            )
+        }
 
     val XAxisLabel: @Composable (value: Any) -> Unit = { value ->
         Text(
