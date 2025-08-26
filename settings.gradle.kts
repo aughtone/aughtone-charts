@@ -28,7 +28,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "aughtone-charts"
+rootProject.name = "AOCharts"
 
 include(":charts")
 //include(":sampleApp")
