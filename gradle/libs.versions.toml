@@ -1,78 +1,56 @@
 [versions]
-## SDK Versions
-compileSdk = "35"
+applicationId = "io.github.aughtone.charts"
+versionName = "0.0.1"
+versionNameSiffix = "-alpha1"
 minSdk = "24"
-targetSdk = "31"
-versionCode = "1"
-versionName = "0.1"
-applicationId = "com.netguru.multiplatform.charts"
-testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-optInFlags = "-opt-in=kotlin.RequiresOptIn"
+compileSdk = "36"
+targetSdk = "36"
 
-#kotlin
-jvmTarget = "11"
+agp = "8.12.0"
+kotlin = "2.2.0"
+kotlinx-serialization = "1.9.0"
+kotlinx-datetime = "0.7.1-0.6.x-compat"
+jetbrains-composeMultiplatform = "1.8.2"
+vanniktech = "0.34.0"
 
-#desktop
-desktop-packageVersion = "1.0.0"
-desktop-packageName = "jvm"
+coil = "3.3.0"
+coilKtor = "3.3.0"
+aughtone-format = "1.0.2"
 
-# Dependencies
-kotlin-gradle-plugin = "2.1.20"
-android-gradle-plugin = "8.9.1"
-jetbrains-compose = "1.7.3"
-activity-compose = "1.10.1"
-compose-test = "1.7.8"
-coroutines = "1.10.2"
-appcompat = "1.7.0"
-core-ktx = "1.16.0"
-junit = "4.13.2"
-window = "1.3.0"
-turbine = "0.7.0"
-klock = "2.4.13"
-kotlin-poet = "1.14.2"
-mockk = "1.12.3"
-shot = "5.14.1"
-ktlint = "10.2.1"
-dokka = "2.0.0"
+androidx-activityCompose = "1.10.1"
+androidx-uiToolingPreviewAndroid = "1.8.3"
+androidx-lifecycle = "2.9.1"
 
-# Project
-project-group = "com.netguru"
-project-version = "0.1"
-project-name = "Compose Multiplatform Charts"
-
+navigationCompose = "2.8.0-alpha13"
+koin = "4.1.0"
 
 [libraries]
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin-gradle-plugin" }
-plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-gradle-plugin" }
-plugin-android = { module = "com.android.tools.build:gradle", version.ref = "android-gradle-plugin" }
-plugin-poet = { module = "com.squareup:kotlinpoet", version.ref = "kotlin-poet"}
-plugin-shot = { module = "com.karumi:shot", version.ref = "shot" }
-compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "jetbrains-compose" }
-compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "jetbrains-compose" }
-compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "jetbrains-compose" }
-compose-material = { module = "org.jetbrains.compose.material:material", version.ref = "jetbrains-compose" }
-compose-materialIconsExtended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "jetbrains-compose" }
-compose-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "jetbrains-compose" }
-compose-uiTooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "jetbrains-compose" }
-kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines"}
-androidx-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
-androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
-androidx-coreKtx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
-androidx-window = { module = "androidx.window:window", version.ref = "window" }
-test-junit = { module = "junit:junit", version.ref = "junit" }
-test-ui-junit = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose-test" }
-test-ui-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose-test" }
-test-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-test-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
-time-klock = { module = "com.soywiz.korlibs.klock:klock", version.ref = "klock" }
-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
-mockk-agentJvm = { module = "io.mockk:mockk-agent-jvm", version.ref = "mockk" }
-mockk-common = { module = "io.mockk:mockk-common", version.ref = "mockk" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coilKtor" }
+aughtone-format-datetime = { module = "io.github.aughtone:format-datetime", version.ref = "aughtone-format" }
+
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-uiToolingPreviewAndroid" }
+androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+
+navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 
 [plugins]
-compose-desktop = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
-kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-gradle-plugin"}
-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin-gradle-plugin" }
-kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin-gradle-plugin" }
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "jetbrains-composeMultiplatform" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+vanniktech-mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech" }
+android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }

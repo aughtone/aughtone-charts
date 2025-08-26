@@ -16,7 +16,7 @@ data class LineChartPoint(
 data class LineChartSeries(
     val dataName: String,
     val lineWidth: Dp = 3.dp,
-    val lineColor: Color,
+    val lineColor: Color, // this should be captured from Material colourScheme which means it should be composable.
     val fillColor: Color = lineColor,
     val dashedLine: Boolean = false,
     val listOfPoints: List<LineChartPoint> = emptyList(),

@@ -1,8 +1,8 @@
 package com.netguru.multiplatform.charts.dial
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -24,7 +24,7 @@ internal object DialDefaults {
     val MinAndMaxValueLabel: @Composable (value: Any) -> Unit = {
         Text(
             text = it.toString(),
-            style = MaterialTheme.typography.body2,
+            style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier
                 .padding(top = 16.dp)
         )

@@ -1,15 +1,34 @@
+@file:Suppress("UnstableApiUsage")
+
 pluginManagement {
     repositories {
-        google()
-        gradlePluginPortal()
+        google {
+            mavenContent {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
+            }
+        }
         mavenCentral()
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        gradlePluginPortal()
     }
 }
-rootProject.name = "compose-multiplatform-charts"
+
+dependencyResolutionManagement {
+    repositories {
+        google {
+            mavenContent {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
+            }
+        }
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
+rootProject.name = "AOCharts"
 
 include(":charts")
-include(":example-app:application")
-include(":example-app:common")
-include(":example-app:android")
-include(":example-app:desktop")
+//include(":sampleApp")
