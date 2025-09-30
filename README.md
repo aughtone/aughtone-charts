@@ -12,6 +12,10 @@ Currently supported platforms are <strong>Desktop</strong> and <strong>Android</
   <br/><em>Brought with</em> &nbsp;❤️ <em>by</em> &nbsp; <a href="https://www.netguru.com"><img align="center" alt="Netguru logo" src='./assets/readme_netguru_logo.png' width='30'/></a>
 </div>
 
+# Accredation
+This library was originally forled from the [compose-multiplatform-charts](https://github.com/netguru/compose-multiplatform-charts) project.
+New charts were added and the library will need to be cleaned up before release.
+
 # Installation
 ### Using local build
 Go to `charts` folder and run `assemble[Debug|Release]`. This results in an `aar` file which can then be copied/imported to your project as any other `aar` artifact.
