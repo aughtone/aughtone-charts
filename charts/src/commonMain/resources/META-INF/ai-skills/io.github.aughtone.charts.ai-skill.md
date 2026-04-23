@@ -1,10 +1,13 @@
 ---
 skill-id: io.github.aughtone.charts
+name: "[AughtOne Charts](https://github.com/aughtone/aughtone-charts)"
+type: "AughtOne AI-Skill"
 scope: ui
 compatibility: ">=1.0.0"
+author: "[Brill Pappin](https://github.com/bpappin)"
 ---
 
-# AI Skill: Aughtone Charts
+# AI Skill: AughtOne Charts
 
 This library provides a collection of chart components for Kotlin Multiplatform using Compose. It includes both high-level "Simple" charts for quick visualizations and feature-rich "Advanced" charts with legends and overlays.
 
