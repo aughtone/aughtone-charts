@@ -1,5 +1,5 @@
 [versions]
-applicationId = "io.github.aughtone.charts"
+namespace = "io.github.aughtone.charts"
 versionName = "0.0.1"
 versionNameSiffix = "-alpha1"
 minSdk = "24"
@@ -15,7 +15,7 @@ vanniktech = "0.34.0"
 
 coil = "3.3.0"
 coilKtor = "3.3.0"
-aughtone-format = "1.0.2"
+aughtone-format = "2.1.1"
 
 androidx-activityCompose = "1.11.0"
 androidx-uiToolingPreviewAndroid = "1.9.1"

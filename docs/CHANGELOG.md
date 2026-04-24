@@ -7,4 +7,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ### Added
-- **AughtOne AI-Skill**: Integrated the **AughtOne AI-Skill Publishing Standard**.
+- **Branding & Standardization**:
+    - Ecosystem rebranding to "Aughtone".
+    - Unified iOS Kit naming to `AughtoneChartsKit`.
+    - Standardized `namespace` and publication coordinates to `io.github.aughtone`.
+- **Aughtone AI-Skill**: Integrated the **Aughtone AI-Skill Publishing Standard**.
+- **Dependency Updates**: Bumped `aughtone-format` to `2.1.1`.

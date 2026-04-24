@@ -10,7 +10,7 @@ plugins {
     alias(libs.plugins.vanniktech.mavenPublish)
 }
 
-group = "io.github.aughtone"
+group = libs.versions.namespace.get().toString()
 version = "${libs.versions.versionName.get().toString()}${
     libs.versions.versionNameSiffix.get().toString()
 }"
@@ -34,11 +34,11 @@ kotlin {
     }
     listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
         it.binaries.framework {
-            baseName = "ChartsKit"
+            baseName = "AughtoneChartsKit"
             isStatic = true
             binaryOption(
                 "bundleId",
-                libs.versions.applicationId.get().toString()
+                libs.versions.namespace.get().toString()
             ) //"app.occurrence"
             binaryOption(
                 "bundleShortVersionString",
@@ -78,7 +78,7 @@ compose.resources {
 }
 
 android {
-    namespace = "io.github.aughtone.charts"
+    namespace = libs.versions.namespace.get().toString()
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
@@ -103,7 +103,7 @@ mavenPublishing {
     coordinates(group.toString(), "charts", version.toString())
 
     pom {
-        name = "Aught One Charts"
+        name = "Aughtone Charts"
         description = "Multiplatform charts component."
         inceptionYear = "2025"
         url = "https://github.com/aughtone/aughtone-charts"
