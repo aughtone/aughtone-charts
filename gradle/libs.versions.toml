@@ -1,28 +1,28 @@
 [versions]
-namespace = "io.github.aughtone.charts"
+namespace = "io.github.aughtone"
 versionName = "0.0.1"
 versionNameSiffix = "-alpha1"
 minSdk = "24"
-compileSdk = "36"
+compileSdk = "37"
 targetSdk = "36"
 
-agp = "8.12.3"
-kotlin = "2.2.20"
-kotlinx-serialization = "1.9.0"
+agp = "9.2.0"
+kotlin = "2.3.21"
+kotlinx-serialization = "1.11.0"
 kotlinx-datetime = "0.7.1-0.6.x-compat"
-jetbrains-composeMultiplatform = "1.8.2"
-vanniktech = "0.34.0"
+jetbrains-composeMultiplatform = "1.10.3"
+vanniktech = "0.36.0"
 
-coil = "3.3.0"
-coilKtor = "3.3.0"
+coil = "3.4.0"
+coilKtor = "3.4.0"
 aughtone-format = "2.1.1"
 
-androidx-activityCompose = "1.11.0"
-androidx-uiToolingPreviewAndroid = "1.9.1"
-androidx-lifecycle = "2.9.3"
+androidx-activityCompose = "1.13.0"
+androidx-uiToolingPreviewAndroid = "1.11.0"
+androidx-lifecycle = "2.10.0"
 
-navigationCompose = "2.8.0-alpha13"
-koin = "4.1.1"
+navigationCompose = "2.9.2"
+koin = "4.2.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -45,12 +45,11 @@ koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", ver
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 
 [plugins]
-androidApplication = { id = "com.android.application", version.ref = "agp" }
-androidLibrary = { id = "com.android.library", version.ref = "agp" }
+#androidApplication = { id = "com.android.application", version.ref = "agp" }
+multiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "jetbrains-composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 vanniktech-mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech" }
-android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }

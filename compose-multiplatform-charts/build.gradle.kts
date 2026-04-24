@@ -25,7 +25,6 @@ kotlin {
 //            jvmTarget.set(JvmTarget.JVM_21)
 //        }
 //    }
-
     android {
         namespace = libs.versions.namespace.get().toString()
         compileSdk = libs.versions.compileSdk.get().toInt()
@@ -37,7 +36,6 @@ kotlin {
 //            targetCompatibility = JavaVersion.VERSION_21
 //        }
     }
-
     // See: https://kotlinlang.org/docs/js-project-setup.html
     js(IR) {
         browser {
@@ -48,7 +46,7 @@ kotlin {
     }
     listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
         it.binaries.framework {
-            baseName = "AughtoneChartsKit"
+            baseName = "AughtoneCMPChartsKit"
             isStatic = true
             binaryOption(
                 "bundleId",
@@ -87,7 +85,7 @@ kotlin {
 
 compose.resources {
     publicResClass = true
-    packageOfResClass = "io.github.aughtone.charts.resources"
+    packageOfResClass = "com.netguru.multiplatform.charts.resources"
     generateResClass = always
 }
 
@@ -104,7 +102,7 @@ mavenPublishing {
         signAllPublications()
     }
 
-    coordinates(group.toString(), "charts", version.toString())
+    coordinates(group.toString(), "compose-multiplatform-charts", version.toString())
 
     pom {
         name = "Aughtone Charts"

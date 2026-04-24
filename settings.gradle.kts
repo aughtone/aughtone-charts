@@ -31,4 +31,4 @@ dependencyResolutionManagement {
 rootProject.name = "AOCharts"
 
 include(":charts")
-//include(":sampleApp")
+include(":compose-multiplatform-charts")

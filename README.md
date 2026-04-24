@@ -13,8 +13,9 @@ Currently supported platforms are <strong>Desktop</strong> and <strong>Android</
 </div>
 
 # Accredation
-This library was originally forled from the [compose-multiplatform-charts](https://github.com/netguru/compose-multiplatform-charts) project.
+This library was originally forked from the [compose-multiplatform-charts](https://github.com/netguru/compose-multiplatform-charts) project.
 New charts were added and the library will need to be cleaned up before release.
+The fork was created and added to this library because the original developersdid not apear to want to publish it, and I needed it 
 
 # Installation
 ### Using local build
