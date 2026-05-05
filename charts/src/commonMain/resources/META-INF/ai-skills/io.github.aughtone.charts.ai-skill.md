@@ -1,5 +1,6 @@
 ---
 skill-id: io.github.aughtone.charts
+spec-version: 1.0
 name: "[Aughtone Charts](https://github.com/aughtone/aughtone-charts)"
 type: "Aughtone AI-Skill"
 scope: ui

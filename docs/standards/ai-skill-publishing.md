@@ -44,6 +44,7 @@ Every `.ai-skill.md` file MUST begin with a YAML frontmatter block. This allows 
 ```markdown
 ---
 skill-id: [library_maven_group].[library_maven_artifact]
+spec-version: "[version]"
 scope: [core|api|guides|...]
 compatibility: "[version_range]"
 ---
@@ -54,6 +55,7 @@ compatibility: "[version_range]"
 ```markdown
 ---
 skill-id: io.github.aughtone.types
+spec-version: 1.0
 scope: core
 compatibility: ">=1.0.0"
 ---
@@ -116,7 +118,7 @@ If you are using an AI agent (like Antigravity), you can use the following "Magi
 
 1.  **Identify Namespace**: Read `build.gradle.kts` or `gradle.properties` to confirm the library's identity.
 2.  **Create Skill File**: Create the file `src/commonMain/resources/META-INF/ai-skills/[group].[artifact].ai-skill.md`.
-3.  **Inject Metadata**: Add the YAML frontmatter with `skill-id`, `scope: core`, and `compatibility`.
+3.  **Inject Metadata**: Add the YAML frontmatter with `skill-id`, `spec-version`, `scope: core`, and `compatibility`.
 4.  **Scaffold Content**: Add placeholders for API descriptions and the mandatory `## 🤖 Agent Onboarding` section.
 5.  **Update README**: Append the `## 🤖 AI-Assisted Development` section to the root `README.md`.
 6.  **Update AGENTS.md**: Add a reference to the new skill file in the project's `AGENTS.md` to ensure immediate governance.

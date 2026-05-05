@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.math.max
 
 /**
@@ -75,9 +75,9 @@ fun SimpleBarChart(
     }
 }
 
-@Preview
+@Preview("Normal Data")
 @Composable
-private fun SimpleBarChartPreview_NormalData() {
+private fun SimpleBarChartNormalDataPreview() {
     MaterialTheme {
         SimpleBarChart(
             dataPoints = listOf(10f, 20f, 5f, 40f, 15f, 30f),
@@ -90,9 +90,9 @@ private fun SimpleBarChartPreview_NormalData() {
     }
 }
 
-@Preview
+@Preview("Normalized Data")
 @Composable
-private fun SimpleBarChartPreview_NormalizedData() {
+private fun SimpleBarChartNormalizedDataPreview() {
     MaterialTheme {
         SimpleBarChart(
             dataPoints = listOf(0.1f, 0.8f, 0.3f, 1f, 0.5f, 0.05f),
@@ -108,7 +108,7 @@ private fun SimpleBarChartPreview_NormalizedData() {
 
 @Preview
 @Composable
-private fun SimpleBarChartPreview_SingleBar() {
+private fun SimpleBarChartSingleBarPreview() {
     MaterialTheme {
         SimpleBarChart(
             dataPoints = listOf(50f),
@@ -122,7 +122,7 @@ private fun SimpleBarChartPreview_SingleBar() {
 
 @Preview
 @Composable
-private fun SimpleBarChartPreview_AllZeros() {
+private fun SimpleBarChartAllZerosPreview() {
     MaterialTheme {
         SimpleBarChart(
             dataPoints = listOf(0f, 0f, 0f, 0f),
@@ -137,7 +137,7 @@ private fun SimpleBarChartPreview_AllZeros() {
 
 @Preview
 @Composable
-private fun SimpleBarChartPreview_Empty() {
+private fun SimpleBarChartEmptyPreview() {
     MaterialTheme {
         SimpleBarChart(
             dataPoints = emptyList(),
@@ -151,7 +151,7 @@ private fun SimpleBarChartPreview_Empty() {
 
 @Preview
 @Composable
-private fun SimpleBarChartPreview_WideBars() {
+private fun SimpleBarChartWideBarsPreview() {
     MaterialTheme {
         SimpleBarChart(
             dataPoints = listOf(10f, 25f, 5f, 30f),
@@ -166,7 +166,7 @@ private fun SimpleBarChartPreview_WideBars() {
 
 @Preview
 @Composable
-private fun SimpleBarChartPreview_NarrowBars() {
+private fun SimpleBarChartNarrowBarsPreview() {
     MaterialTheme {
         SimpleBarChart(
             dataPoints = listOf(10f, 25f, 5f, 30f, 10f),

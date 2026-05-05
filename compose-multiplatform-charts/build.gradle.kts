@@ -63,13 +63,13 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(compose.runtime)
-            api(compose.foundation)
-            api(compose.material3)
-            api(compose.ui)
-            api(compose.materialIconsExtended)
-            api(compose.components.resources)
-            api(compose.components.uiToolingPreview)
+            implementation(libs.jetbrains.compose.runtime)
+            implementation(libs.jetbrains.compose.foundation)
+            implementation(libs.jetbrains.compose.material3)
+            implementation(libs.jetbrains.compose.ui)
+            implementation(libs.jetbrains.compose.components.resources)
+            implementation(libs.jetbrains.compose.ui.tooling.preview)
+            implementation(libs.jetbrains.compose.material.icons.extended)
             api(libs.aughtone.format.datetime)
             api(libs.kotlinx.datetime)
             api(libs.kotlinx.serialization.json)
@@ -96,7 +96,7 @@ compose.resources {
 //}
 
 mavenPublishing {
-    publishToMavenCentral()
+    publishToMavenCentral(automaticRelease = true)
 
     if (!project.hasProperty("skip-signing")) {
         signAllPublications()

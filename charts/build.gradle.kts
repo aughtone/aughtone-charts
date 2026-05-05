@@ -10,24 +10,18 @@ plugins {
     alias(libs.plugins.vanniktech.mavenPublish)
 }
 
-group = libs.versions.namespace.get().toString()
-version = "${libs.versions.versionName.get().toString()}${
-    libs.versions.versionNameSiffix.get().toString()
+group = libs.versions.namespace.get()
+version = "${libs.versions.versionName.get()}${
+    libs.versions.versionNameSiffix.get()
 }"
 
 kotlin {
     jvmToolchain(17)
+
     jvm()
-//    androidTarget {
-//        publishLibraryVariants("release")
-//        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-//        compilerOptions {
-//            jvmTarget.set(JvmTarget.JVM_21)
-//        }
-//    }
 
     android {
-        namespace = libs.versions.namespace.get().toString()
+        namespace = libs.versions.namespace.get()
         compileSdk = libs.versions.compileSdk.get().toInt()
 //        defaultConfig {
 //            minSdk = libs.versions.minSdk.get().toInt()
@@ -52,11 +46,11 @@ kotlin {
             isStatic = true
             binaryOption(
                 "bundleId",
-                libs.versions.namespace.get().toString()
+                libs.versions.namespace.get()
             ) //"app.occurrence"
             binaryOption(
                 "bundleShortVersionString",
-                libs.versions.versionName.get().toString()
+                libs.versions.versionName.get()
             ) //"1.0.0"
 //            binaryOption("bundleVersion", libs.versions.versionCode.get().toString()) //"1"
         }
@@ -65,13 +59,14 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(compose.runtime)
-            api(compose.foundation)
-            api(compose.material3)
-            api(compose.ui)
-            api(compose.materialIconsExtended)
-            api(compose.components.resources)
-            api(compose.components.uiToolingPreview)
+            implementation(libs.jetbrains.compose.runtime)
+            implementation(libs.jetbrains.compose.foundation)
+            implementation(libs.jetbrains.compose.material3)
+            implementation(libs.jetbrains.compose.ui)
+            implementation(libs.jetbrains.compose.components.resources)
+            implementation(libs.jetbrains.compose.ui.tooling.preview)
+            implementation(libs.jetbrains.compose.material.icons.extended)
+
             api(libs.aughtone.format.datetime)
             api(libs.kotlinx.datetime)
             api(libs.kotlinx.serialization.json)
@@ -82,6 +77,11 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
+
+        androidMain.dependencies {
+            implementation(libs.jetbrains.compose.ui.tooling.preview)
+            implementation(libs.jetbrains.compose.ui.tooling)
+        }
     }
 }
 
@@ -91,14 +91,8 @@ compose.resources {
     generateResClass = always
 }
 
-
-
-//dependencies {
-//    debugImplementation(libs.androidx.compose.ui.tooling)
-//}
-
 mavenPublishing {
-    publishToMavenCentral()
+    publishToMavenCentral(automaticRelease = true)
 
     if (!project.hasProperty("skip-signing")) {
         signAllPublications()

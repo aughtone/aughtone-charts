@@ -10,9 +10,9 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.ui.tooling.preview.Preview // KMP Preview
 
 /**
  * A Composable that displays a progress bar in an arc shape, suitable for KMP.
@@ -23,11 +23,11 @@ import org.jetbrains.compose.ui.tooling.preview.Preview // KMP Preview
  * @param strokeWidth The width of the progress arc and its background.
  * @param backgroundColor The color of the background track for the arc.
  * @param startAngle The starting angle of the arc in degrees.
- *                   `180f`: top semi-circle, ends on horizontal plane (progresses left-to-right over the top).
- *                   `0f`: bottom semi-circle, ends on horizontal plane (progresses right-to-left over the bottom).
- *                   `-90f`: right-side semi-circle, ends on vertical plane (progresses top-to-bottom on the right).
- *                   `90f`: left-side semi-circle, ends on vertical plane (progresses bottom-to-top on the left).
- * @param totalArcDegrees The total angular extent of the arc. Defaults to 180f (a semi-circle).
+ *                   `180f`: top semicircle, ends on horizontal plane (progresses left-to-right over the top).
+ *                   `0f`: bottom semicircle, ends on horizontal plane (progresses right-to-left over the bottom).
+ *                   `-90f`: right-side semicircle, ends on vertical plane (progresses top-to-bottom on the right).
+ *                   `90f`: left-side semicircle, ends on vertical plane (progresses bottom-to-top on the left).
+ * @param totalArcDegrees The total angular extent of the arc. Defaults to 180f (a semicircle).
  *                        Use values like 270f for a 3/4 circle, or 360f for a full circle.
  */
 @Composable
@@ -37,7 +37,7 @@ fun ArcProgressBar(
     color: Color = MaterialTheme.colorScheme.primary,
     strokeWidth: Dp = 8.dp,
     backgroundColor: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
-    startAngle: Float = 180f, // Default to top semi-circle with horizontal ends
+    startAngle: Float = 180f, // Default to top semicircle with horizontal ends
     totalArcDegrees: Float = 180f // Default to a 180-degree arc
 ) {
     // Progress sweep angle is now scaled by totalArcDegrees
@@ -84,7 +84,7 @@ fun ArcProgressBar(
 
 @Preview
 @Composable
-private fun ArcProgressBarPreview_Default_TopHalfHorizontalEnds() {
+private fun ArcProgressBarDefaultTopHalfHorizontalEndsPreview() {
     MaterialTheme {
         ArcProgressBar(
             progress = 0.75f,
@@ -98,7 +98,7 @@ private fun ArcProgressBarPreview_Default_TopHalfHorizontalEnds() {
 
 @Preview
 @Composable
-private fun ArcProgressBarPreview_BottomHalfHorizontalEnds() {
+private fun ArcProgressBarBottomHalfHorizontalEndsPreview() {
     MaterialTheme {
         ArcProgressBar(
             progress = 0.5f,
@@ -112,7 +112,7 @@ private fun ArcProgressBarPreview_BottomHalfHorizontalEnds() {
 
 @Preview
 @Composable
-private fun ArcProgressBarPreview_ZeroProgress_TopHalf() {
+private fun ArcProgressBarZeroProgressTopHalfPreview() {
     MaterialTheme {
         ArcProgressBar(
             progress = 0f,
@@ -125,7 +125,7 @@ private fun ArcProgressBarPreview_ZeroProgress_TopHalf() {
 
 @Preview
 @Composable
-private fun ArcProgressBarPreview_FullProgress_TopHalf() {
+private fun ArcProgressBarFullProgressTopHalfPreview() {
     MaterialTheme {
         ArcProgressBar(
             progress = 1.0f,
@@ -139,7 +139,7 @@ private fun ArcProgressBarPreview_FullProgress_TopHalf() {
 
 @Preview
 @Composable
-private fun ArcProgressBarPreview_RightHalfVerticalEnds() {
+private fun ArcProgressBarRightHalfVerticalEndsPreview() {
     MaterialTheme {
         ArcProgressBar(
             progress = 0.6f,
@@ -152,7 +152,7 @@ private fun ArcProgressBarPreview_RightHalfVerticalEnds() {
 
 @Preview
 @Composable
-private fun ArcProgressBarPreview_270DegreeArc() {
+private fun ArcProgressBar270DegreeArcPreview() {
     MaterialTheme {
         ArcProgressBar(
             progress = 0.75f,
@@ -166,7 +166,7 @@ private fun ArcProgressBarPreview_270DegreeArc() {
 
 @Preview
 @Composable
-private fun ArcProgressBarPreview_Custom200DegreeArc() {
+private fun ArcProgressBarCustom200DegreeArcPreview() {
     MaterialTheme {
         ArcProgressBar(
             progress = 0.5f,

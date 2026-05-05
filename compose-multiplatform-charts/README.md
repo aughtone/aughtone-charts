@@ -1,21 +1,19 @@
-<div align="center">
-    <img alt="Compose multiplatform charts" src="./assets/charts-logo.svg"/>
-    <h1>Charts for Kotlin Multiplatform projects</h1>
-</div>
+# Charts for Kotlin Multiplatform projects
 
-<div align="center">
 Library contains several chart composables for usage in Kotlin Multiplatform projects.   
 Currently supported platforms are <strong>Desktop</strong> and <strong>Android</strong>.
-</div>
 
-<div align="center">
-  <br/><em>Brought with</em> &nbsp;❤️ <em>by</em> &nbsp; <a href="https://www.netguru.com"><img align="center" alt="Netguru logo" src='./assets/readme_netguru_logo.png' width='30'/></a>
-</div>
 
-# Accreditation
-This library was originally forked from the [compose-multiplatform-charts](https://github.com/netguru/compose-multiplatform-charts) project.
-New charts were added and the library will need to be cleaned up before release.
-The fork was created and added to this library because the original developers did not appear to want to publish it, and worked seemed to drop off. 
+
+_Brought with ❤️ by_ [Netguru](https://www.netguru.com)
+
+
+### Accreditation Note
+This library was originally forked from the [compose-multiplatform-charts](https://github.com/netguru/compose-multiplatform-charts) project.  
+At the time of the fork, the project appeared stale, and the original developers did not appear to be maintaining it.  
+If you find it useful, let them know, they did some great work here.
+
+We have kept their original README mostly intact.
 
 # Installation
 ### Using local build

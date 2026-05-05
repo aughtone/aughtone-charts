@@ -14,9 +14,9 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 /**
  * A very simple line chart Composable for KMP.
@@ -144,7 +144,7 @@ fun SimpleLineChart(
 
 @Preview
 @Composable
-private fun SimpleLineChartPreview_Increasing() {
+private fun SimpleLineChartIncreasingPreview() {
     MaterialTheme {
         SimpleLineChart(
             dataPoints = listOf(10f, 20f, 5f, 40f, 30f, 60f, 50f),
@@ -160,7 +160,7 @@ private fun SimpleLineChartPreview_Increasing() {
 
 @Preview
 @Composable
-private fun SimpleLineChartPreview_Increasing_Curved() {
+private fun SimpleLineChartIncreasingCurvedPreview() {
     MaterialTheme {
         SimpleLineChart(
             dataPoints = listOf(10f, 20f, 5f, 40f, 30f, 60f, 50f),
@@ -177,7 +177,7 @@ private fun SimpleLineChartPreview_Increasing_Curved() {
 
 @Preview
 @Composable
-private fun SimpleLineChartPreview_Normalized() {
+private fun SimpleLineChartNormalizedPreview() {
     MaterialTheme {
         SimpleLineChart(
             dataPoints = listOf(0.1f, 0.3f, 0.2f, 0.8f, 0.5f, 0.9f, 0.4f),
@@ -194,7 +194,7 @@ private fun SimpleLineChartPreview_Normalized() {
 
 @Preview
 @Composable
-private fun SimpleLineChartPreview_Normalized_Curved() {
+private fun SimpleLineChartNormalizedCurvedPreview() {
     MaterialTheme {
         SimpleLineChart(
             dataPoints = listOf(0.1f, 0.3f, 0.2f, 0.8f, 0.5f, 0.9f, 0.4f),
@@ -212,7 +212,7 @@ private fun SimpleLineChartPreview_Normalized_Curved() {
 
 @Preview
 @Composable
-private fun SimpleLineChartPreview_Flat() {
+private fun SimpleLineChartFlatPreview() {
     MaterialTheme {
         SimpleLineChart(
             dataPoints = listOf(50f, 50f, 50f, 50f),
@@ -226,7 +226,7 @@ private fun SimpleLineChartPreview_Flat() {
 
 @Preview
 @Composable
-private fun SimpleLineChartPreview_Flat_Curved() {
+private fun SimpleLineChartFlatCurvedPreview() {
     MaterialTheme {
         SimpleLineChart(
             dataPoints = listOf(50f, 50f, 50f, 50f),
@@ -241,7 +241,7 @@ private fun SimpleLineChartPreview_Flat_Curved() {
 
 @Preview
 @Composable
-private fun SimpleLineChartPreview_TwoPoints() {
+private fun SimpleLineChartTwoPointsPreview() {
     MaterialTheme {
         SimpleLineChart(
             dataPoints = listOf(20f, 80f),
@@ -255,7 +255,7 @@ private fun SimpleLineChartPreview_TwoPoints() {
 
 @Preview
 @Composable
-private fun SimpleLineChartPreview_TwoPoints_Curved() {
+private fun SimpleLineChartTwoPointsCurvedPreview() {
     MaterialTheme {
         SimpleLineChart(
             dataPoints = listOf(20f, 80f), // Will draw a straight line
@@ -271,7 +271,7 @@ private fun SimpleLineChartPreview_TwoPoints_Curved() {
 
 @Preview
 @Composable
-private fun SimpleLineChartPreview_SinglePoint() {
+private fun SimpleLineChartSinglePointPreview() {
     MaterialTheme {
         SimpleLineChart(
             dataPoints = listOf(50f),
@@ -285,7 +285,7 @@ private fun SimpleLineChartPreview_SinglePoint() {
 
 @Preview
 @Composable
-private fun SimpleLineChartPreview_Empty() {
+private fun SimpleLineChartEmptyPreview() {
     MaterialTheme {
         SimpleLineChart(
             dataPoints = emptyList(),
@@ -299,7 +299,7 @@ private fun SimpleLineChartPreview_Empty() {
 
 @Preview
 @Composable
-private fun SimpleLineChartPreview_ExtendAndClip() {
+private fun SimpleLineChartExtendAndClipPreview() {
     MaterialTheme {
         SimpleLineChart(
             dataPoints = listOf(10f, 60f, 20f, 80f, 30f),
@@ -317,7 +317,7 @@ private fun SimpleLineChartPreview_ExtendAndClip() {
 
 @Preview
 @Composable
-private fun SimpleLineChartPreview_ExtendAndClip_Curved() {
+private fun SimpleLineChartExtendAndClipCurvedPreview() {
     MaterialTheme {
         SimpleLineChart(
             dataPoints = listOf(10f, 60f, 20f, 80f, 30f),
