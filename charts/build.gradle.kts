@@ -11,9 +11,7 @@ plugins {
 }
 
 group = libs.versions.namespace.get()
-version = "${libs.versions.versionName.get()}${
-    libs.versions.versionNameSiffix.get()
-}"
+version = libs.versions.versionName.get()
 
 kotlin {
     jvmToolchain(17)
@@ -67,7 +65,6 @@ kotlin {
             implementation(libs.jetbrains.compose.ui.tooling.preview)
             implementation(libs.jetbrains.compose.material.icons.extended)
 
-            api(libs.aughtone.format.datetime)
             api(libs.kotlinx.datetime)
             api(libs.kotlinx.serialization.json)
             api(libs.coil.compose)

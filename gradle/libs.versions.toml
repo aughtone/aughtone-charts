@@ -1,7 +1,6 @@
 [versions]
 namespace = "io.github.aughtone"
 versionName = "0.0.1"
-versionNameSiffix = "-alpha1"
 minSdk = "24"
 compileSdk = "37"
 targetSdk = "36"
@@ -15,7 +14,6 @@ vanniktech = "0.37.0"
 
 coil = "3.5.0"
 coilKtor = "3.5.0"
-aughtone-format = "3.0.3"
 
 androidx-activityCompose = "1.13.0"
 androidx-uiToolingPreviewAndroid = "1.11.3"
@@ -34,7 +32,6 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coilKtor" }
-aughtone-format-datetime = { module = "io.github.aughtone:format-datetime", version.ref = "aughtone-format" }
 
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-uiToolingPreviewAndroid" }
