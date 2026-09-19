@@ -40,7 +40,7 @@ kotlin {
         useEsModules() // Enables ES2015 modules
         // binaries.executable()
     }
-    listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
+    listOf(iosArm64(), iosSimulatorArm64()).forEach {
         it.binaries.framework {
             baseName = "AughtoneChartsKit"
             isStatic = true
@@ -101,21 +101,29 @@ mavenPublishing {
     coordinates(group.toString(), "charts", version.toString())
 
     pom {
-        name = "Aughtone Charts"
+        name = "Aught One Charts"
         description = "Multiplatform charts component."
         inceptionYear = "2025"
         url = "https://github.com/aughtone/aughtone-charts"
         licenses {
+            // The combined work is distributed under Apache-2.0. Material derived from
+            // netguru/compose-multiplatform-charts remains under its original MIT grant;
+            // see NOTICE.md and LICENSE-MIT.md.
             license {
                 name = "The Apache License, Version 2.0"
                 url = "https://www.apache.org/licenses/LICENSE-2.0"
                 distribution = "https://www.apache.org/licenses/LICENSE-2.0.txt"
             }
+            license {
+                name = "MIT License"
+                url = "https://opensource.org/licenses/MIT"
+                distribution = "https://opensource.org/licenses/MIT"
+            }
         }
         developers {
             developer {
                 id = "bpappin"
-                name = "Brill pappin"
+                name = "bpappin"
                 url = "https://github.com/bpappin"
             }
 

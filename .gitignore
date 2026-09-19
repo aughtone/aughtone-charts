@@ -9,3 +9,5 @@ local.properties
 .gradle
 .idea/
 .DS_Store
+# Scratch: removed but not yet deleted.
+_to_delete/

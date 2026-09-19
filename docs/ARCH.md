@@ -2,7 +2,7 @@
 
 ## 📦 Distribution & Publishing
 
-Aughtone Charts is a Kotlin Multiplatform library published to **Maven Central** using the `com.vanniktech.maven-publish` plugin.
+Aught One Charts is a Kotlin Multiplatform library published to **Maven Central** using the `com.vanniktech.maven-publish` plugin.
 
 ### Coordinates
 - **Group**: `io.github.aughtone`

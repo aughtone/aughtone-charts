@@ -6,26 +6,26 @@ minSdk = "24"
 compileSdk = "37"
 targetSdk = "36"
 
-agp = "9.2.0"
-kotlin = "2.3.21"
+agp = "9.2.1"
+kotlin = "2.4.0"
 kotlinx-serialization = "1.11.0"
-kotlinx-datetime = "0.7.1-0.6.x-compat"
-jetbrains-composeMultiplatform = "1.10.3"
-vanniktech = "0.36.0"
+kotlinx-datetime = "0.8.0"
+jetbrains-composeMultiplatform = "1.11.1"
+vanniktech = "0.37.0"
 
-coil = "3.4.0"
-coilKtor = "3.4.0"
-aughtone-format = "2.1.2"
+coil = "3.5.0"
+coilKtor = "3.5.0"
+aughtone-format = "3.0.3"
 
 androidx-activityCompose = "1.13.0"
-androidx-uiToolingPreviewAndroid = "1.11.0"
+androidx-uiToolingPreviewAndroid = "1.11.3"
 androidx-lifecycle = "2.10.0"
 
 navigationCompose = "2.9.2"
-koin = "4.2.1"
+koin = "4.2.2"
 
-composeMultiplatform = "1.10.3"
-material3 = "1.10.0-alpha05"
+composeMultiplatform = "1.11.1"
+material3 = "1.11.0-alpha07"
 material3IconsExtended = "1.7.3"
 
 [libraries]
