@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.aughtone.charts.round
 
-internal object PieDefaults {
+object PieDefaults {
     const val FULL_CIRCLE_DEGREES = 360f
     const val START_ANGLE = 270.0
     const val NUMBER_OF_COLS_IN_LEGEND = 4

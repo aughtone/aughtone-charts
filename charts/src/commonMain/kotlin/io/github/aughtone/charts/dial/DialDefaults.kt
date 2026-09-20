@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-internal object DialDefaults {
+object DialDefaults {
 
     val THICKNESS = 15.dp
     val SCALE_PADDING = 24.dp

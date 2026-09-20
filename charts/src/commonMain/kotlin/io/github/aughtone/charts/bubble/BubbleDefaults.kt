@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.github.aughtone.charts.round
 
-internal object BubbleDefaults {
+object BubbleDefaults {
 
     const val MINIMUM_BUBBLE_RADIUS = 40f
 

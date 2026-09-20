@@ -9,7 +9,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-internal object GridDefaults {
+object GridDefaults {
 
     val HORIZONTAL_LINES_OFFSET = 10.dp
     const val NUMBER_OF_GRID_LINES = 5

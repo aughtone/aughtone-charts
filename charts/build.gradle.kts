@@ -75,6 +75,12 @@ kotlin {
             implementation(libs.kotlin.test)
         }
 
+        jvmTest.dependencies {
+            // kotlin-reflect is the only way to read Kotlin visibility: an `internal` object
+            // compiles to a public class, so Java reflection cannot tell the two apart.
+            implementation(kotlin("reflect"))
+        }
+
         androidMain.dependencies {
             implementation(libs.jetbrains.compose.ui.tooling.preview)
             implementation(libs.jetbrains.compose.ui.tooling)
