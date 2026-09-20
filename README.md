@@ -30,12 +30,15 @@ implementation("io.github.aughtone:charts:0.0.1")
 
 ## 🚀 Usage
 The library provides following components:
- - [BarChart](#barchart)
+ - [BarChart](#barchart) — and `BarChartWithLegend`
  - [BubbleChart](#bubblechart)
- - [Dial](#dial)
+ - [Dial](#dial) — and `PercentageDial`, a variant fixed to 0–100
  - [GasBottle](#gasbottle)
- - [LineChart](#linechart)
- - [PieChart](#piechart)
+ - [LineChart](#linechart) — and `LineChartWithLegend`
+ - [PieChart](#piechart) — and `PieChartWithLegend`
+ - [Simple charts](#simple-charts) — `SimpleLineChart`, `SimpleBarChart` and `ArcProgressBar`
+
+`ChartLegend` can also be used on its own to place a legend elsewhere in your own layout.
 
 Most of the components have arguments like:
  - **data** - depends on chart type it's complex dataset or few primitives arguments
@@ -279,6 +282,30 @@ PieChart(
 
 By default the thickness is `Dp.Infinity`, it means the chart will be fully filled.
 
+### Simple charts
+
+Lightweight charts that take a plain list of values and no configuration object. They draw no axes, grid or labels, which makes them suited to sparklines and inline indicators rather than full charts. Unlike the charts above they read their default colors from `MaterialTheme`, not from `LocalChartColors`.
+
+```kotlin
+SimpleLineChart(
+    dataPoints = listOf(3f, 1f, 4f, 1f, 5f, 9f, 2f),
+    modifier = Modifier.fillMaxWidth().height(64.dp),
+    useCurvedLines = true,
+)
+
+SimpleBarChart(
+    dataPoints = listOf(3f, 1f, 4f, 1f, 5f, 9f, 2f),
+    modifier = Modifier.fillMaxWidth().height(64.dp),
+)
+
+ArcProgressBar(
+    progress = 0.72f,
+    modifier = Modifier.size(120.dp),
+)
+```
+
+With `adaptToData = true` (the default) the line and bar charts scale to the range of the values given; set it to `false` when the values are already normalised to `0f..1f`. `ArcProgressBar` always takes `progress` in `0f..1f`, and its arc can be swept elsewhere with `startAngle` and `totalArcDegrees`.
+
 ## 🎨 Theming
 The easiest way to set the same colors for all charts is to provide `ChartColors` in the app theme.
 ```kotlin
@@ -317,7 +344,7 @@ Each chart has its own color set which can be used like:
 ```kotlin
 BarChart(
     data = barChartData,
-    colors = BarChartColors(grid = Color.LightGray)
+    colors = BarChartColors(grid = Color.LightGray, surface = Color.White)
 )
 ```
 

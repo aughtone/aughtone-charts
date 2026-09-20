@@ -136,6 +136,12 @@ private fun BubbleComp(
 }
 
 @Composable
+/**
+ * Renders a [BubbleChart] over [bubbleChartSampleData], for previewing the chart in isolation.
+ *
+ * Intended for development rather than production use: the data is generated at random and
+ * differs on every composition.
+ */
 fun BubbleChartPreview() {
     val data = bubbleChartSampleData()
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -147,6 +153,12 @@ fun BubbleChartPreview() {
 }
 
 @Composable
+/**
+ * Builds four bubbles with random values and colors, for previews and examples.
+ *
+ * Intended for development rather than production use: the values are generated at random and
+ * are not stable between calls.
+ */
 fun bubbleChartSampleData(): List<Bubble> {
     val bubbles = mutableListOf<Bubble>()
     for (i in 0 until 4) {

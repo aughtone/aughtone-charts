@@ -9,6 +9,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/**
+ * Default labels and grid sizing shared by the axis-based charts.
+ *
+ * These are the values the chart composables fall back to, so a caller varying one label can
+ * delegate to the default rather than reproducing it:
+ *
+ * ```
+ * BarChart(
+ *     data = data,
+ *     yAxisLabel = { value -> GridDefaults.YAxisLabel(format(value)) },
+ * )
+ * ```
+ */
 object GridDefaults {
 
     val HORIZONTAL_LINES_OFFSET = 10.dp

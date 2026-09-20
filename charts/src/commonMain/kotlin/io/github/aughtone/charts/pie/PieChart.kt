@@ -28,6 +28,13 @@ import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
 
+/**
+ * One segment of a [PieChart]. Segments are sized by their value relative to the others.
+ *
+ * @param name Label for the segment, shown in the legend.
+ * @param value Value the segment represents.
+ * @param color Color the segment is drawn in.
+ */
 data class PieChartData(val name: String, val value: Double, val color: Color)
 
 /**
@@ -37,9 +44,10 @@ data class PieChartData(val name: String, val value: Double, val color: Color)
  * [PieChartWithLegend]
  *
  * @param data Data to show
- * @param animation Animation to use. [ChartAnimation.Sequenced] is currently not supported and will
+ * @param modifier Modifier applied to the chart.
+ * @param animation Animation to use. [ChartAnimation.Sequenced] is currently not supported and
+ * will throw an [UnsupportedOperationException] if used.
  * @param config The parameters for chart appearance customization
- * throw an [UnsupportedOperationException] if used.
  *
  * @throws UnsupportedOperationException when [ChartAnimation.Sequenced] is used
  */

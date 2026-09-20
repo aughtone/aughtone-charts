@@ -30,6 +30,19 @@ import io.github.aughtone.charts.bar.BarChartConfig
 import io.github.aughtone.charts.grid.GridDefaults
 
 @Composable
+/**
+ * A standalone legend, laid out as an adaptive grid.
+ *
+ * The chart composables ending in `WithLegend` draw this themselves; use it directly to place a
+ * legend somewhere else in your own layout.
+ *
+ * @param legendData Entries to show, typically [GridChartData.legendData].
+ * @param modifier Modifier applied to the legend.
+ * @param animation Animation used to fade the entries in.
+ * @param config Supplies the corner radius of each entry's color symbol.
+ * @param legendItemLabel Composable to show for each entry. The color symbol drawn to its left
+ * is not customizable.
+ */
 fun ChartLegend(
     legendData: List<LegendItemData>,
     modifier: Modifier = Modifier,
@@ -119,6 +132,14 @@ private fun LegendItem(
 }
 
 @Immutable
+/**
+ * One entry in a chart legend.
+ *
+ * @param name Text shown for the entry.
+ * @param symbolShape Shape of the color symbol drawn beside the text.
+ * @param color Color of that symbol, matching the series it stands for.
+ * @param dashed Whether the symbol is drawn dashed, matching a dashed line series.
+ */
 data class LegendItemData(
     val name: String,
     val symbolShape: SymbolShape,
@@ -132,7 +153,10 @@ private fun LegendItemData.selectSymbolSize() = when (symbolShape) {
     SymbolShape.RECTANGLE -> DpSize(width = 12.dp, height = 12.dp)
 }
 
+/** Shape of the color symbol drawn beside a legend entry. */
 enum class SymbolShape {
+    /** A short horizontal bar, used for line series. */
     LINE,
+    /** A filled square, used for bar series. */
     RECTANGLE
 }

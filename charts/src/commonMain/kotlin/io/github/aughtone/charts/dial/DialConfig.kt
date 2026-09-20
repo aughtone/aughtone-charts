@@ -22,8 +22,16 @@ data class DialConfig(
     val roundCorners: Boolean = false,
 )
 
+/** How the arc representing the value meets the remainder of the arc. */
 sealed class DialJoinStyle {
+    /** The two arcs meet flush, with no gap. */
     object Joined : DialJoinStyle()
+    /** The value arc is drawn over the remainder. */
     object Overlapped : DialJoinStyle()
+    /**
+     * The two arcs are separated by a gap.
+     *
+     * @param degrees Width of the gap, in degrees.
+     */
     data class WithDegreeGap(val degrees: Float) : DialJoinStyle()
 }

@@ -40,6 +40,9 @@ import io.github.aughtone.charts.grid.measureChartGrid
 import io.github.aughtone.charts.theme.ChartColors
 import io.github.aughtone.charts.theme.ChartTheme
 
+/**
+ * The dash pattern used when [LineChartSeries.dashedLine] is set: 5 pixels on, 5 off.
+ */
 val dashedPathEffect = PathEffect.dashPathEffect(floatArrayOf(5f, 5f), 0f)
 
 /**
@@ -52,8 +55,9 @@ val dashedPathEffect = PathEffect.dashPathEffect(floatArrayOf(5f, 5f), 0f)
  * show the legend. For this, [LineChartWithLegend] must be used.
  *
  * @param lineChartData Data to portray
- * @param colors Colors used are [ChartColors.grid], [ChartColors.surface] and
- * [ChartColors.overlayLine].
+ * @param modifier Modifier applied to the chart.
+ * @param colors Colors used are [LineChartColors.grid], [LineChartColors.surface] and
+ * [LineChartColors.overlayLine].
  * @param xAxisLabel Composable to mark the values on the x-axis.
  * @param yAxisLabel Composable to mark the values on the y-axis.
  * @param overlayHeaderLabel Composable to show the current x-axis value on the overlay balloon

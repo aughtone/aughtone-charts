@@ -19,6 +19,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.github.aughtone.charts.round
 
+/**
+ * Default label used by [io.github.aughtone.charts.bubble.BubbleChart].
+ *
+ * Pass a replacement as `bubbleLabel`, or delegate to [BubbleLabel] to keep the stock layout.
+ */
 object BubbleDefaults {
 
     const val MINIMUM_BUBBLE_RADIUS = 40f

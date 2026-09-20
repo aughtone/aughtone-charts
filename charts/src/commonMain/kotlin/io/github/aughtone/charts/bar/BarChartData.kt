@@ -6,6 +6,14 @@ import io.github.aughtone.charts.line.LegendItemData
 import io.github.aughtone.charts.line.SymbolShape
 
 @Immutable
+/**
+ * Data for [BarChart]: a list of categories, each holding the bars drawn in one cluster.
+ *
+ * The axis ranges are derived from the categories and are not set directly. The y-axis range
+ * always spans zero, so bars share a common baseline.
+ *
+ * @param categories The clusters to draw, in the order they appear on the x-axis.
+ */
 data class BarChartData(
     val categories: List<BarChartCategory>,
 ) : GridChartData {

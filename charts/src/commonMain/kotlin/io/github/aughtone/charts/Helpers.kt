@@ -16,6 +16,18 @@ internal fun Double.mapValueToDifferentRange(
     outMax: Double,
 ) = (this - inMin) * (outMax - outMin) / (inMax - inMin) + outMin
 
+/**
+ * Linearly maps this value from one range onto another.
+ *
+ * Used to turn data values into canvas coordinates. The output range may be inverted
+ * (`outMin` greater than `outMax`), which is how values map onto a downward-growing y-axis.
+ * Values outside the input range extrapolate rather than clamp.
+ *
+ * @param inMin Lower bound of the range this value is in.
+ * @param inMax Upper bound of the range this value is in. Equal bounds divide by zero.
+ * @param outMin Value returned when this equals [inMin].
+ * @param outMax Value returned when this equals [inMax].
+ */
 fun Float.mapValueToDifferentRange(
     inMin: Float,
     inMax: Float,
@@ -23,6 +35,17 @@ fun Float.mapValueToDifferentRange(
     outMax: Float,
 ) = (this - inMin) * (outMax - outMin) / (inMax - inMin) + outMin
 
+/**
+ * Linearly maps this value onto another range, in whole units.
+ *
+ * The arithmetic is integer division and truncates; use the [Float] output overload where the
+ * fractional part matters.
+ *
+ * @param inMin Lower bound of the range this value is in.
+ * @param inMax Upper bound of the range this value is in. Equal bounds divide by zero.
+ * @param outMin Value returned when this equals [inMin].
+ * @param outMax Value returned when this equals [inMax].
+ */
 fun Long.mapValueToDifferentRange(
     inMin: Long,
     inMax: Long,
@@ -30,6 +53,14 @@ fun Long.mapValueToDifferentRange(
     outMax: Long,
 ) = (this - inMin) * (outMax - outMin) / (inMax - inMin) + outMin
 
+/**
+ * Linearly maps this value onto a floating-point range, keeping the fractional part.
+ *
+ * @param inMin Lower bound of the range this value is in.
+ * @param inMax Upper bound of the range this value is in. Equal bounds divide by zero.
+ * @param outMin Value returned when this equals [inMin].
+ * @param outMax Value returned when this equals [inMax].
+ */
 fun Long.mapValueToDifferentRange(
     inMin: Long,
     inMax: Long,
@@ -37,6 +68,16 @@ fun Long.mapValueToDifferentRange(
     outMax: Float,
 ) = (this - inMin) * (outMax - outMin) / (inMax - inMin) + outMin
 
+/**
+ * Formats this number as a label, rounded to [decimals] places.
+ *
+ * A trailing `.0` is dropped, so a whole number renders as `1` rather than `1.0`. This is
+ * deliberate: Kotlin/JS has no distinct `Int` or `Float` at runtime, and dropping the suffix is
+ * the only form that renders identically on every target. Integral types are returned unchanged.
+ *
+ * @param decimals Number of decimal places to keep.
+ * @return The formatted value, or `"-"` if this is not a finite number.
+ */
 fun Number.round(decimals: Int = 2): String {
     return when (this) {
         is Double,

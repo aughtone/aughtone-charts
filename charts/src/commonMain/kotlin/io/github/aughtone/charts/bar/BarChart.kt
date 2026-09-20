@@ -41,14 +41,16 @@ import io.github.aughtone.charts.theme.ChartTheme
  * This bar chart shows data organised in categories.
  *
  * @param data Data to show in the chart
- * @param colors The only parameter used is [ChartColors.grid]. Others play no role in
- * BarChart. Colors of the bars themselves are specified together with the data
+ * @param modifier Modifier applied to the chart.
+ * @param colors The only value used is [BarChartColors.grid]. The colors of the bars themselves
+ * are specified with the data, in [BarChartEntry].
  * @param config The parameters for chart appearance customization
  * @param xAxisLabel Composable to mark the values on the x-axis.
  * @param yAxisLabel Composable to mark the values on the y-axis.
  * @param animation In the case of [ChartAnimation.Sequenced] items with the same index in each
  * category will animate together
- * values
+ * @param overlayDataEntryLabel Composable to show the name and value of the bar selected by
+ * touch or click.
  */
 @Composable
 fun BarChart(

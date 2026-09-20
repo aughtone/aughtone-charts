@@ -8,6 +8,12 @@ import io.github.aughtone.charts.grid.axisscale.XAxisScale
 import io.github.aughtone.charts.grid.axisscale.YAxisScale
 import io.github.aughtone.charts.mapValueToDifferentRange
 
+/**
+ * Draws a measured grid, including its baseline.
+ *
+ * @param grid Grid to draw, as returned by [measureChartGrid].
+ * @param color Color of the grid lines.
+ */
 fun DrawScope.drawChartGrid(grid: ChartGrid, color: Color) {
     grid.horizontalLines.forEach {
         drawLine(
@@ -33,6 +39,14 @@ fun DrawScope.drawChartGrid(grid: ChartGrid, color: Color) {
     }
 }
 
+/**
+ * Works out where an axis grid's lines fall within the current canvas.
+ *
+ * @param xAxisScale Supplies the x-axis range and tick spacing.
+ * @param yAxisScale Supplies the y-axis range and tick spacing.
+ * @param horizontalLinesOffset Padding kept above and below the plotted range.
+ * @return The measured grid, ready to pass to [drawChartGrid].
+ */
 fun DrawScope.measureChartGrid(
     xAxisScale: XAxisScale,
     yAxisScale: YAxisScale,

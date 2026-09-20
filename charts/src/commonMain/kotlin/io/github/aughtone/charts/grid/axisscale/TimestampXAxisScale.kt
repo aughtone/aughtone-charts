@@ -1,5 +1,16 @@
 package io.github.aughtone.charts.grid.axisscale
 
+/**
+ * An x-axis over epoch milliseconds, with grid lines on whole hours.
+ *
+ * The first line is the first whole hour after [min], and spacing is rounded down to a whole
+ * number of hours so that at most [maxTicksCount] lines are drawn. A range shorter than
+ * [maxTicksCount] hours, including an empty range, falls back to hourly spacing.
+ *
+ * @param min Lowest timestamp on the axis, in epoch milliseconds.
+ * @param max Highest timestamp on the axis, in epoch milliseconds.
+ * @param maxTicksCount Upper bound on the number of grid lines.
+ */
 class TimestampXAxisScale(
     override val min: Long,
     override val max: Long,
@@ -16,6 +27,7 @@ class TimestampXAxisScale(
     override val tick: Long = if (period > 0) period else HOUR_MS
 
     companion object {
+        /** One hour, in milliseconds. */
         const val HOUR_MS = 3600000L
     }
 }

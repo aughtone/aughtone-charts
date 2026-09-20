@@ -114,4 +114,10 @@ private fun calculateConnectionPointsForBezierCurve(points: List<PointF>): Mutab
     return conPoint
 }
 
+/**
+ * A point in the chart's canvas, in pixels.
+ *
+ * @param x Horizontal offset.
+ * @param y Vertical offset.
+ */
 data class PointF(val x: Float, val y: Float)

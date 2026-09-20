@@ -12,6 +12,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.aughtone.charts.round
 
+/**
+ * Default sizing and legend label used by [io.github.aughtone.charts.pie.PieChart] and
+ * [io.github.aughtone.charts.pie.PieChartWithLegend].
+ */
 object PieDefaults {
     const val FULL_CIRCLE_DEGREES = 360f
     const val START_ANGLE = 270.0

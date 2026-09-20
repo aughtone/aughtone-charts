@@ -8,6 +8,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/**
+ * Default labels used by [io.github.aughtone.charts.dial.Dial] and
+ * [io.github.aughtone.charts.dial.PercentageDial].
+ *
+ * Pass replacements as `mainLabel` and `minAndMaxValueLabel`, or delegate to these to keep the
+ * stock layout.
+ */
 object DialDefaults {
 
     val THICKNESS = 15.dp

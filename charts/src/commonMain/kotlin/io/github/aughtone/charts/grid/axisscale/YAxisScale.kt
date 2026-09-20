@@ -5,6 +5,18 @@ import kotlin.math.floor
 import kotlin.math.log10
 import kotlin.math.pow
 
+/**
+ * A y-axis whose bounds are widened to round numbers and divided into readable ticks.
+ *
+ * The bounds are rounded away from zero to a multiple of [roundClosestTo], so the axis always
+ * contains the data. Tick spacing is then chosen as a round number giving at most [maxTickCount]
+ * intervals. A NaN bound is treated as zero, and a zero-width range yields a tick of zero.
+ *
+ * @param min Lowest value the axis must contain.
+ * @param max Highest value the axis must contain.
+ * @param maxTickCount Upper bound on the number of intervals.
+ * @param roundClosestTo Multiple the bounds are rounded out to.
+ */
 class YAxisScale(
     min: Float,
     max: Float,

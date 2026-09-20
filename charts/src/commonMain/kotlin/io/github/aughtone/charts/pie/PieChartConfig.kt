@@ -29,6 +29,7 @@ data class PieChartConfig(
     val numberOfColsInLegend: Int = PieDefaults.NUMBER_OF_COLS_IN_LEGEND,
 )
 
+/** Shape of the color symbol drawn beside each legend entry. */
 enum class LegendIcon {
     SQUARE,
     CIRCLE,
@@ -36,6 +37,7 @@ enum class LegendIcon {
     CAKE,
 }
 
+/** Where the legend is placed relative to the chart. */
 enum class LegendOrientation {
     HORIZONTAL,
     VERTICAL,
