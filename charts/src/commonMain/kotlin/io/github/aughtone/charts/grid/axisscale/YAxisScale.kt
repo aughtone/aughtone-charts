@@ -1,5 +1,6 @@
 package io.github.aughtone.charts.grid.axisscale
 
+import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.log10
 import kotlin.math.pow
@@ -30,9 +31,16 @@ class YAxisScale(
         this.tick = niceNum(range / (maxTickCount), true)
     }
 
+    /**
+     * Rounds away from zero to the next multiple of [n], so the bound always contains the data.
+     *
+     * Works on the Float directly: an earlier form called toInt() first, and that truncation
+     * meant a max of 40.7 rounded to 40 rather than 50, leaving the topmost point outside the
+     * plotted area.
+     */
     private fun Float.getClosest(n: Int) = when {
-        this > 0f -> (((this.toInt() + n - 1) / n) * n).toFloat()
-        this < 0f -> (((this.toInt() - n + 1) / n) * n).toFloat()
+        this > 0f -> ceil(this / n) * n
+        this < 0f -> floor(this / n) * n
         else -> 0f
     }
 

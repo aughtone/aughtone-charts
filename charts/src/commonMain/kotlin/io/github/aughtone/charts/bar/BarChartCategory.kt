@@ -7,8 +7,10 @@ data class BarChartCategory(
     val name: String,
     val entries: List<BarChartEntry>
 ) {
+    // A category filtered down to nothing is a legitimate input, so fall back to zero rather
+    // than letting minOf/maxOf throw on an empty list.
     val minY: Float
-        get() = entries.minOf { it.y }
+        get() = entries.minOfOrNull { it.y } ?: 0f
     val maxY: Float
-        get() = entries.maxOf { it.y }
+        get() = entries.maxOfOrNull { it.y } ?: 0f
 }

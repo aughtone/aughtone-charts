@@ -42,7 +42,9 @@ fun Number.round(decimals: Int = 2): String {
         is Double,
         is Float,
         -> try {
-            ((this.toDouble() * 10.0.pow(decimals)).roundToInt() / 10.0.pow(decimals)).toString()
+            ((this.toDouble() * 10.0.pow(decimals)).roundToInt() / 10.0.pow(decimals))
+                .toString()
+                .withoutTrailingZero()
         } catch (e: IllegalArgumentException) {
             "-"
         }
@@ -51,6 +53,17 @@ fun Number.round(decimals: Int = 2): String {
         }
     }
 }
+
+/**
+ * Drops a trailing `.0` so a whole number labels identically on every target.
+ *
+ * Kotlin/JS has no distinct Int or Float at runtime: `42` arrives here as a Double and takes the
+ * floating-point branch above, where the JVM would have passed it through as an Int. Normalising
+ * towards `1` rather than `1.0` is the only direction that agrees on both, and it reads better on
+ * an axis. Exponent and non-finite forms are untouched.
+ */
+private fun String.withoutTrailingZero(): String =
+    if (endsWith(".0")) dropLast(2) else this
 
 @Composable
 internal fun StartAnimation(animation: ChartAnimation, data: Any): Boolean {
