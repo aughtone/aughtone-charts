@@ -7,6 +7,9 @@
 
 Chart composables for Kotlin Multiplatform projects. Targets Android, JVM/Desktop, iOS and JS.
 
+> [!WARNING]
+> **This library is alpha (`0.0.x`), and its API is still being worked out.** Composable signatures, config classes and the defaults objects may change between releases, and some changes will be breaking. Each one is listed in the [changelog](docs/CHANGELOG.md).
+
 ## 🙏 Accreditation
 This library was originally forked from the [compose-multiplatform-charts](https://github.com/netguru/compose-multiplatform-charts) project, created and maintained by the team at [Netguru](https://www.netguru.com). 
 
