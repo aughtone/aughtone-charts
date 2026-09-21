@@ -1,58 +1,143 @@
-import com.netguru.multiplatform.charts.extensions.baseAndroidSetup
-import com.netguru.multiplatform.charts.extensions.commonMain
-import com.netguru.multiplatform.charts.extensions.commonTest
-import com.netguru.multiplatform.charts.extensions.kotlin
-import com.netguru.multiplatform.charts.extensions.sourceSets
-import java.net.URL
-
-baseAndroidSetup()
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.kotlin.compose)
-    kotlin("multiplatform")
-    id("com.android.library")
-    alias(libs.plugins.dokka)
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.multiplatformLibrary)
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.vanniktech.mavenPublish)
 }
 
-kotlin {
-    androidTarget()
-    jvm("desktop")
+group = libs.versions.namespace.get()
+version = libs.versions.versionName.get()
 
-    sourceSets {
-        commonMain {
-            dependencies {
-                api(libs.compose.runtime)
-                api(libs.compose.ui)
-                api(libs.compose.foundation)
-                api(libs.compose.material)
-                api(libs.compose.materialIconsExtended)
+kotlin {
+    jvmToolchain(17)
+
+    jvm()
+
+    android {
+        namespace = libs.versions.namespace.get()
+        compileSdk = libs.versions.compileSdk.get().toInt()
+        minSdk = libs.versions.minSdk.get().toInt()
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
+
+    // See: https://kotlinlang.org/docs/js-project-setup.html
+    js {
+        browser {
+            generateTypeScriptDefinitions()
+            webpackTask {
+                output.libraryTarget = "commonjs2"
             }
         }
-        commonTest {
-            dependencies {
-                implementation(libs.kotlin.test)
-            }
+        useEsModules() // Enables ES2015 modules
+        binaries.executable()
+    }
+    listOf(iosArm64(), iosSimulatorArm64()).forEach {
+        it.binaries.framework {
+            baseName = "AOChartsKit"
+            isStatic = true
+            binaryOption(
+                "bundleId",
+                libs.versions.namespace.get()
+            ) //"app.occurrence"
+            binaryOption(
+                "bundleShortVersionString",
+                libs.versions.versionName.get()
+            ) //"1.0.0"
+//            binaryOption("bundleVersion", libs.versions.versionCode.get().toString()) //"1"
+        }
+    }
+//    linuxX64()
+
+    sourceSets {
+        commonMain.dependencies {
+            implementation(libs.jetbrains.compose.runtime)
+            implementation(libs.jetbrains.compose.foundation)
+            implementation(libs.jetbrains.compose.material3)
+            implementation(libs.jetbrains.compose.ui)
+            implementation(libs.jetbrains.compose.components.resources)
+            implementation(libs.jetbrains.compose.ui.tooling.preview)
+            implementation(libs.jetbrains.compose.material.icons.extended)
+
+            api(libs.kotlinx.datetime)
+            api(libs.kotlinx.serialization.json)
+            api(libs.coil.compose)
+            api(libs.coil.network.ktor3)
+        }
+
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
+
+        jvmTest.dependencies {
+            // kotlin-reflect is the only way to read Kotlin visibility: an `internal` object
+            // compiles to a public class, so Java reflection cannot tell the two apart.
+            implementation(kotlin("reflect"))
+        }
+
+        androidMain.dependencies {
+            implementation(libs.jetbrains.compose.ui.tooling.preview)
+            implementation(libs.jetbrains.compose.ui.tooling)
         }
     }
 }
-android {
-    namespace = "com.netguru.multiplatform.charts"
+
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "io.github.aughtone.charts.resources"
+    generateResClass = always
 }
 
-tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
-    dokkaSourceSets {
-        named("commonMain") {
-            moduleName.set("Kotlin multiplatform charts")
-            sourceLink {
-                val dir = "src/commonMain/kotlin"
-                localDirectory.set(file(dir))
-                remoteUrl.set(
-                    URL(
-                        "https://github.com/netguru/compose-multiplatform-charts/tree/main/charts/$dir"
-                    )
-                )
-                remoteLineSuffix.set("#L")
+mavenPublishing {
+    publishToMavenCentral(automaticRelease = true)
+
+    val hasInMemoryKey = project.hasProperty("signingInMemoryKey") ||
+            project.hasProperty("signingInMemoryKeyId") ||
+            project.hasProperty("signing.gnupg.keyName")
+
+    if (hasInMemoryKey && !project.hasProperty("skip-signing")) {
+        signAllPublications()
+    }
+
+    coordinates(group.toString(), "charts", version.toString())
+
+    pom {
+        name = "Aught One Charts"
+        description = "Multiplatform charts component."
+        inceptionYear = "2025"
+        url = "https://github.com/aughtone/aughtone-charts"
+        licenses {
+            // The combined work is distributed under Apache-2.0. Material derived from
+            // netguru/compose-multiplatform-charts remains under its original MIT grant;
+            // see NOTICE.md and LICENSE-MIT.md.
+            license {
+                name = "The Apache License, Version 2.0"
+                url = "https://www.apache.org/licenses/LICENSE-2.0"
+                distribution = "https://www.apache.org/licenses/LICENSE-2.0.txt"
             }
+            license {
+                name = "MIT License"
+                url = "https://opensource.org/licenses/MIT"
+                distribution = "https://opensource.org/licenses/MIT"
+            }
+        }
+        developers {
+            developer {
+                id = "bpappin"
+                name = "bpappin"
+                url = "https://github.com/bpappin"
+            }
+
+        }
+        scm {
+            url = "https://github.com/aughtone/aughtone-charts"
+            connection = "https://github.com/aughtone/aughtone-charts.git"
+            developerConnection = "git@github.com:aughtone/aughtone-charts.git"
         }
     }
 }

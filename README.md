@@ -1,40 +1,58 @@
-<div align="center">
-    <img alt="Compose multiplatform charts" src="./assets/charts-logo.svg"/>
-    <h1>Charts for Kotlin Multiplatform projects</h1>
-</div>
+# Aught One Charts
 
-<div align="center">
-Library contains several chart composables for usage in Kotlin Multiplatform projects.   
-Currently supported platforms are <strong>Desktop</strong> and <strong>Android</strong>.
-</div>
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.aughtone/charts.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/io.github.aughtone/charts)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
-<div align="center">
-  <br/><em>Brought with</em> &nbsp;❤️ <em>by</em> &nbsp; <a href="https://www.netguru.com"><img align="center" alt="Netguru logo" src='./assets/readme_netguru_logo.png' width='30'/></a>
-</div>
+![Charts Banner](assets/charts-banner.svg)
 
-# Installation
+Chart composables for Kotlin Multiplatform projects. Targets Android, JVM/Desktop, iOS and JS.
+
+> [!WARNING]
+> **This library is alpha (`0.0.x`), and its API is still being worked out.** Composable signatures, config classes and the defaults objects may change between releases, and some changes will be breaking. Each one is listed in the [changelog](CHANGELOG.md).
+
+## 🙏 Accreditation
+This library was originally forked from the [compose-multiplatform-charts](https://github.com/netguru/compose-multiplatform-charts) project, created and maintained by the team at [Netguru](https://www.netguru.com). 
+
+Since the original project appears to no longer be actively maintained and reaching out went unanswered, we have forked the library to continue its development, support newer Kotlin Multiplatform environments, add new chart components, and prepare it for publishing.
+
+The original code is licensed under the MIT License and remains under it — see [LICENSE-MIT.md](LICENSE-MIT.md). This fork is licensed under the Apache License 2.0 — see [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md).
+
+## 📥 Installation
 ### Using local build
-Go to `charts` folder and run `assemble[Debug|Release]`. This results in an `aar` file which can then be copied/imported to your project as any other `aar` artifact.
-### Using maven dependency
-TBA
+Go to the root directory and build the project, or run the local publish script:
+```sh
+./publish-local.sh
+```
+This builds the artifacts and publishes them to your local Maven repository (`~/.m2/repository`).
 
-# Usage
+### Using maven dependency
+Add the dependency to your Kotlin Multiplatform or Android project:
+
+```kotlin
+// commonMain sourceSet dependencies
+implementation("io.github.aughtone:charts:0.0.1")
+```
+
+## 🚀 Usage
 The library provides following components:
- - [BarChart](#BarChart)
- - [BubbleChart](#BubbleChart)
- - [Dial](#Dial)
- - [GasBottle](#GasBottle)
- - [LineChart](#LineChart)
- - [PieChart](#PieChart)
+ - [BarChart](#barchart) — and `BarChartWithLegend`
+ - [BubbleChart](#bubblechart)
+ - [Dial](#dial) — and `PercentageDial`, a variant fixed to 0–100
+ - [GasBottle](#gasbottle)
+ - [LineChart](#linechart) — and `LineChartWithLegend`
+ - [PieChart](#piechart) — and `PieChartWithLegend`
+ - [Simple charts](#simple-charts) — `SimpleLineChart`, `SimpleBarChart` and `ArcProgressBar`
+
+`ChartLegend` can also be used on its own to place a legend elsewhere in your own layout.
 
 Most of the components have arguments like:
  - **data** - depends on chart type it's complex dataset or few primitives arguments
- - **colors** - gives the possibility to change colors of the chart. In some cases the colors are stored in datasets (like in BarChart or LineChart). See [theming](#Theming) section to set same appearance to all charts.
+ - **colors** - gives the possibility to change colors of the chart. In some cases the colors are stored in datasets (like in BarChart or LineChart). See [theming](#-theming) section to set same appearance to all charts.
  - **config** - allows to personalize charts. Depends on chart type it can modify different parts of component. See documentation of specific chart
  - **animation** - the way how chart should appear at the first time
 
-## BarChart
-![Bar chart](/assets/bar-chart.png)
+### BarChart
+![Bar chart](assets/bar-chart.png)
 
 Before using component the BarChartData has to be prepared:
 ```kotlin
@@ -88,8 +106,8 @@ BarChart(
 
 There is another component called `BarChartWithLegend`. It renders bar chart with legend.
 
-## BubbleChart
-![Bubble chart](/assets/bubble-chart.png)
+### BubbleChart
+![Bubble chart](assets/bubble-chart.png)
 
 Before using component the list of Bubble has to be prepared:
 ```kotlin
@@ -123,8 +141,8 @@ BubbleChart(
 )
 ```
 
-# Dial
-![Dial chart](/assets/dial-chart.png)
+### Dial
+![Dial chart](assets/dial-chart.png)
 
 ```kotlin
 Dial(
@@ -164,8 +182,8 @@ Dial(
 There is another component `ProcentageDial`. It accepts only one data argument `percentage` in [0-100] range.
 
 
-# GasBottle
-![Gas bottle chart](/assets/gas-bottle.png)
+### GasBottle
+![Gas bottle chart](assets/gas-bottle.png)
 
 ```kotlin
 GasBottle(
@@ -180,8 +198,8 @@ GasBottle(
 )
 ```
 
-# LineChart
-![Line chart](/assets/line-chart.png)
+### LineChart
+![Line chart](assets/line-chart.png)
 
 Before using component the LineChartData has to be prepared:
 ```kotlin
@@ -229,8 +247,8 @@ LineChart(
 ```
 
 
-# PieChart
-![Line chart](/assets/pie-chart.png)
+### PieChart
+![Pie chart](assets/pie-chart.png)
 
 Before using component the list of PieChartData has to be prepared:
 ```kotlin
@@ -269,7 +287,31 @@ PieChart(
 
 By default the thickness is `Dp.Infinity`, it means the chart will be fully filled.
 
-# Theming
+### Simple charts
+
+Lightweight charts that take a plain list of values and no configuration object. They draw no axes, grid or labels, which makes them suited to sparklines and inline indicators rather than full charts. Unlike the charts above they read their default colors from `MaterialTheme`, not from `LocalChartColors`.
+
+```kotlin
+SimpleLineChart(
+    dataPoints = listOf(3f, 1f, 4f, 1f, 5f, 9f, 2f),
+    modifier = Modifier.fillMaxWidth().height(64.dp),
+    useCurvedLines = true,
+)
+
+SimpleBarChart(
+    dataPoints = listOf(3f, 1f, 4f, 1f, 5f, 9f, 2f),
+    modifier = Modifier.fillMaxWidth().height(64.dp),
+)
+
+ArcProgressBar(
+    progress = 0.72f,
+    modifier = Modifier.size(120.dp),
+)
+```
+
+With `adaptToData = true` (the default) the line and bar charts scale to the range of the values given; set it to `false` when the values are already normalised to `0f..1f`. `ArcProgressBar` always takes `progress` in `0f..1f`, and its arc can be swept elsewhere with `startAngle` and `totalArcDegrees`.
+
+## 🎨 Theming
 The easiest way to set the same colors for all charts is to provide `ChartColors` in the app theme.
 ```kotlin
 private val chartColors = ChartColors(
@@ -307,7 +349,7 @@ Each chart has its own color set which can be used like:
 ```kotlin
 BarChart(
     data = barChartData,
-    colors = BarChartColors(grid = Color.LightGray)
+    colors = BarChartColors(grid = Color.LightGray, surface = Color.White)
 )
 ```
 
@@ -319,11 +361,7 @@ BarChart(
 )
 ```
 
-# Security Issues
-[Reporting Security Vulnerabilities](SECURITY.md)
+## 📄 License
+Apache License 2.0 — see [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md).
 
-# Contributing
-[Contributing guidelines](CONTRIBUTING.md)
-
-# License
-This library is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+Most of the `charts` module is derived from [compose-multiplatform-charts](https://github.com/netguru/compose-multiplatform-charts), Copyright (c) 2022 Netguru, which is licensed under the MIT License and remains under it — see [LICENSE-MIT.md](LICENSE-MIT.md).

@@ -1,0 +1,5 @@
+package io.github.aughtone.chat.sample
+
+import androidx.compose.ui.window.ComposeUIViewController
+
+fun MainViewController() = ComposeUIViewController { App() }
