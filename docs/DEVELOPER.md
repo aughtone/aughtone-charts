@@ -24,4 +24,4 @@ This project uses the `vanniktech.mavenPublish` plugin for automated deployment.
     *Note: If you need to skip GPG signing (e.g., for local testing), use `-Pskip-signing`.*
 
 ### Automation
-The `mavenPublishing` block in `types/build.gradle.kts` is configured with `automaticRelease = true`, meaning once the artifacts are uploaded and validated, they will be automatically released to Maven Central without manual staging intervention.
+The `mavenPublishing` block in `charts/build.gradle.kts` is configured with `automaticRelease = true`, meaning once the artifacts are uploaded and validated, they will be automatically released to Maven Central without manual staging intervention.

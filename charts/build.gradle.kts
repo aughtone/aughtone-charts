@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -21,26 +20,26 @@ kotlin {
     android {
         namespace = libs.versions.namespace.get()
         compileSdk = libs.versions.compileSdk.get().toInt()
-//        defaultConfig {
-//            minSdk = libs.versions.minSdk.get().toInt()
-//        }
-//        compileOptions {
-//            sourceCompatibility = JavaVersion.VERSION_21
-//            targetCompatibility = JavaVersion.VERSION_21
-//        }
+        minSdk = libs.versions.minSdk.get().toInt()
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
     }
 
     // See: https://kotlinlang.org/docs/js-project-setup.html
-    js(IR) {
+    js {
         browser {
             generateTypeScriptDefinitions()
+            webpackTask {
+                output.libraryTarget = "commonjs2"
+            }
         }
         useEsModules() // Enables ES2015 modules
-        // binaries.executable()
+        binaries.executable()
     }
     listOf(iosArm64(), iosSimulatorArm64()).forEach {
         it.binaries.framework {
-            baseName = "AughtoneChartsKit"
+            baseName = "AOChartsKit"
             isStatic = true
             binaryOption(
                 "bundleId",
@@ -97,7 +96,11 @@ compose.resources {
 mavenPublishing {
     publishToMavenCentral(automaticRelease = true)
 
-    if (!project.hasProperty("skip-signing")) {
+    val hasInMemoryKey = project.hasProperty("signingInMemoryKey") ||
+            project.hasProperty("signingInMemoryKeyId") ||
+            project.hasProperty("signing.gnupg.keyName")
+
+    if (hasInMemoryKey && !project.hasProperty("skip-signing")) {
         signAllPublications()
     }
 

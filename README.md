@@ -3,6 +3,8 @@
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.aughtone/charts.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/io.github.aughtone/charts)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
+![Charts Banner](assets/charts-banner.svg)
+
 Chart composables for Kotlin Multiplatform projects. Targets Android, JVM/Desktop, iOS and JS.
 
 ## 🙏 Accreditation
@@ -47,7 +49,7 @@ Most of the components have arguments like:
  - **animation** - the way how chart should appear at the first time
 
 ### BarChart
-![Bar chart](/assets/bar-chart.png)
+![Bar chart](assets/bar-chart.png)
 
 Before using component the BarChartData has to be prepared:
 ```kotlin
@@ -102,7 +104,7 @@ BarChart(
 There is another component called `BarChartWithLegend`. It renders bar chart with legend.
 
 ### BubbleChart
-![Bubble chart](/assets/bubble-chart.png)
+![Bubble chart](assets/bubble-chart.png)
 
 Before using component the list of Bubble has to be prepared:
 ```kotlin
@@ -137,7 +139,7 @@ BubbleChart(
 ```
 
 ### Dial
-![Dial chart](/assets/dial-chart.png)
+![Dial chart](assets/dial-chart.png)
 
 ```kotlin
 Dial(
@@ -178,7 +180,7 @@ There is another component `ProcentageDial`. It accepts only one data argument `
 
 
 ### GasBottle
-![Gas bottle chart](/assets/gas-bottle.png)
+![Gas bottle chart](assets/gas-bottle.png)
 
 ```kotlin
 GasBottle(
@@ -194,7 +196,7 @@ GasBottle(
 ```
 
 ### LineChart
-![Line chart](/assets/line-chart.png)
+![Line chart](assets/line-chart.png)
 
 Before using component the LineChartData has to be prepared:
 ```kotlin
@@ -243,7 +245,7 @@ LineChart(
 
 
 ### PieChart
-![Line chart](/assets/pie-chart.png)
+![Pie chart](assets/pie-chart.png)
 
 Before using component the list of PieChartData has to be prepared:
 ```kotlin
@@ -360,4 +362,3 @@ BarChart(
 Apache License 2.0 — see [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md).
 
 Most of the `charts` module is derived from [compose-multiplatform-charts](https://github.com/netguru/compose-multiplatform-charts), Copyright (c) 2022 Netguru, which is licensed under the MIT License and remains under it — see [LICENSE-MIT.md](LICENSE-MIT.md).
-
