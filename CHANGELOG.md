@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [0.0.1] - 2026-09-21
 
-First release of this fork. See [NOTICE.md](../NOTICE.md) for its provenance and licensing.
+First release of this fork. See [NOTICE.md](NOTICE.md) for its provenance and licensing.
 
 ### Added
 - **Licensing and attribution**: Added `NOTICE.md` recording that most of the `charts` module derives from [compose-multiplatform-charts](https://github.com/netguru/compose-multiplatform-charts), Copyright (c) 2022 Netguru, under the MIT License. Renamed the MIT text to `LICENSE-MIT.md` to distinguish it from the Apache `LICENSE` covering the combined work, and declared both licences in the published POM.
