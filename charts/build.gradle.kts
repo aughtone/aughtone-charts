@@ -8,7 +8,8 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.vanniktech.mavenPublish)
-    // Ships charts/src/commonMain/skills/SKILL.md in every sources jar, for dependent projects' agents.
+    // Ships the library's agent skill in every sources jar, for dependent projects' agents.
+    // It lives at src/commonMain/skills/<name>/SKILL.md; `dependencySkillName` prints <name>.
     alias(libs.plugins.dependencySkills)
 }
 
