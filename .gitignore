@@ -11,3 +11,5 @@ local.properties
 .DS_Store
 # Scratch: removed but not yet deleted.
 _to_delete/
+# Local agent config and the skill experiment; not shared.
+.claude/

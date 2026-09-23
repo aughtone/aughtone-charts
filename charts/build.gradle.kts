@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -7,6 +8,8 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.vanniktech.mavenPublish)
+    // Ships charts/src/commonMain/skills/SKILL.md in every sources jar, for dependent projects' agents.
+    alias(libs.plugins.dependencySkills)
 }
 
 group = libs.versions.namespace.get()
@@ -26,32 +29,22 @@ kotlin {
         }
     }
 
-    // See: https://kotlinlang.org/docs/js-project-setup.html
+    // Published as klibs; the consumer's build decides bundling and module system when it links.
+    // binaries.executable() is only here because Compose 1.12 refuses to run a web test that
+    // loads Skiko without a webpack bundle (CMP-4906). It changes nothing that is published.
     js {
-        browser {
-            generateTypeScriptDefinitions()
-            webpackTask {
-                output.libraryTarget = "commonjs2"
-            }
-        }
-        useEsModules() // Enables ES2015 modules
+        browser()
         binaries.executable()
     }
-    listOf(iosArm64(), iosSimulatorArm64()).forEach {
-        it.binaries.framework {
-            baseName = "AOChartsKit"
-            isStatic = true
-            binaryOption(
-                "bundleId",
-                libs.versions.namespace.get()
-            ) //"app.occurrence"
-            binaryOption(
-                "bundleShortVersionString",
-                libs.versions.versionName.get()
-            ) //"1.0.0"
-//            binaryOption("bundleVersion", libs.versions.versionCode.get().toString()) //"1"
-        }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        binaries.executable()
     }
+    // Consumed as a klib by Kotlin Multiplatform apps; no framework is built or published.
+    iosArm64()
+    iosSimulatorArm64()
 //    linuxX64()
 
     sourceSets {

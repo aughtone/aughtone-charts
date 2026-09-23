@@ -26,10 +26,19 @@ import kotlin.math.min
 import kotlin.random.Random
 
 /**
- * Represents the data in a form of bubbles that can overlap and are sized based on data value
- * ratios. The position of bubbles is not stable and will likely change every time it is loaded!
+ * Represents the data as packed bubbles that can overlap, sized relative to one another by their
+ * [Bubble.radius].
+ *
+ * Radii are scaled so the largest bubble is drawn at the maximum size the chart allows and the
+ * smallest at [BubbleDefaults.MINIMUM_BUBBLE_RADIUS]. A single bubble, or bubbles that all share
+ * one radius, are all drawn at the maximum size. An empty list draws nothing.
+ *
+ * The chart lays out copies of [bubbles], so the instances passed in are never moved and can be
+ * shared between charts. The layout is seeded at random whenever the chart is first composed or
+ * its bubbles, size or spacing change, so a bubble does not land in the same place twice.
  *
  * @param bubbles Data to represent
+ * @param modifier Modifier applied to the chart.
  * @param animation Animation to use for displaying the data
  * @param distanceBetweenCircles Distance between circles in pixels. If negative, bubbles will
  * overlap.
@@ -99,20 +108,31 @@ fun BubbleChart(
     }
 }
 
-private fun Bubble.withRadiusRelativeTo(
+/**
+ * Returns a copy of this bubble with its radius scaled so that [smallestRadius] maps to
+ * [minRadiusPossible] and [largestRadius] to [maxRadiusPossible]. The receiver is left unchanged.
+ *
+ * A single bubble, or bubbles that all share one radius, leave no range to scale across: mapping
+ * through it would divide zero by zero and give a NaN radius. Those are drawn at
+ * [maxRadiusPossible], as the largest bubble in the chart.
+ */
+internal fun Bubble.withRadiusRelativeTo(
     smallestRadius: Float,
     largestRadius: Float,
     minRadiusPossible: Float,
     maxRadiusPossible: Float,
 ): Bubble {
-    return copy(
-        radius = this.radius.mapValueToDifferentRange(
+    val scaled = if (largestRadius == smallestRadius) {
+        maxRadiusPossible
+    } else {
+        radius.mapValueToDifferentRange(
             smallestRadius,
             largestRadius,
             minRadiusPossible,
             maxRadiusPossible
         )
-    )
+    }
+    return copy(radius = scaled)
 }
 
 @Composable

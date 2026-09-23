@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+- **Kotlin/Wasm target**: The library now publishes `charts-wasm-js`, so Compose Multiplatform apps targeting `wasmJs` — Compose's main web target — can depend on it. The common tests run on it as well.
+
+### Changed
+- **Version scheme**: Pre-release suffixes are back, reversing the change recorded under `0.0.1`. Alpha releases are now numbered `0.0.x-alphaN` rather than relying on a `0.x` major/minor alone, so successive alphas order correctly against a published release.
+
+### Removed
+- **iOS framework binary**: The module no longer builds an `AOChartsKit` framework. It was never published, and the charts cannot be called from Swift; iOS consumers use the klib from Kotlin, as before.
+
+### Fixed
+- **A single bubble, or bubbles sharing one radius, got a `NaN` radius**: `BubbleChart` scales radii between the smallest and largest in the list, and with no range between them the scaling divided zero by zero. They are now drawn at the maximum size.
+- **`Bubble` documentation claimed the chart mutated the caller's instances**: the `0.0.1` KDoc said `position` and `velocity` were changed by the layout and that an instance was unsafe to share between charts. The chart lays out copies, so neither was true. The documentation now says so, and notes that `position` does not tell you where a bubble was drawn.
+
 ## [0.0.1] - 2026-09-21
 
 First release of this fork. See [NOTICE.md](NOTICE.md) for its provenance and licensing.

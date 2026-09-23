@@ -1,6 +1,6 @@
 [versions]
 namespace = "io.github.aughtone"
-versionName = "0.0.1"
+versionName = "0.0.2-alpha1"
 minSdk = "24"
 compileSdk = "37"
 targetSdk = "37"
@@ -11,6 +11,7 @@ kotlinx-serialization = "1.11.0"
 kotlinx-datetime = "0.8.0"
 jetbrains-composeMultiplatform = "1.12.0"
 vanniktech = "0.37.0"
+dependencyskills = "0.1.0"
 
 coil = "3.6.3"
 coilKtor = "3.6.3"
@@ -63,3 +64,4 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "jetbrains-composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 vanniktech-mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech" }
+dependencySkills = { id = "org.dependencyskills.plugin", version.ref = "dependencyskills" }

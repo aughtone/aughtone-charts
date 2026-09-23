@@ -53,7 +53,4 @@ later than to remove one from a public history.
 ## 4. AI Interaction Guidelines
 - **Verification First**: Check the corresponding AcceptanceCriteria.md before implementation.
 - **Mandatory Approval**: ALWAYS present a detailed implementation plan and WAIT for explicit user approval before executing any code changes or tool calls that modify the repository state.
-- **No embedded skill files.** Do not add `*.ai-skill.md`,
-  `META-INF/ai-skills/` or `META-INF/agents/skills/` to this repo, and do
-  not scan dependencies for them.
 - **Update Docs**: Intelligently disperse context into the appropriate sector.
