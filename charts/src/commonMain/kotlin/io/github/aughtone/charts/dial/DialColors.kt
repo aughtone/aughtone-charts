@@ -4,7 +4,6 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import io.github.aughtone.charts.theme.ChartColors
 
-@Immutable
 /**
  * The colors [Dial] and [PercentageDial] draw with.
  *
@@ -12,6 +11,7 @@ import io.github.aughtone.charts.theme.ChartColors
  * @param progressBarBackgroundColor Color of the remainder of the arc.
  * @param gridScaleColor Color of the scale lines around the arc.
  */
+@Immutable
 data class DialColors(
     val progressBarColor: Color,
     val progressBarBackgroundColor: Color,

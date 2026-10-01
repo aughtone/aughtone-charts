@@ -9,9 +9,8 @@ agp = "9.4.1"
 kotlin = "2.4.20"
 kotlinx-serialization = "1.11.0"
 kotlinx-datetime = "0.8.0"
-jetbrains-composeMultiplatform = "1.12.0"
+jetbrains-composeMultiplatform = "1.12.1"
 vanniktech = "0.37.0"
-dependencyskills = "0.1.0"
 
 coil = "3.6.3"
 coilKtor = "3.6.3"
@@ -23,7 +22,7 @@ androidx-lifecycle = "2.11.0"
 navigationCompose = "2.9.2"
 koin = "4.2.2"
 
-composeMultiplatform = "1.12.0"
+composeMultiplatform = "1.12.1"
 material3 = "1.11.0-alpha07"
 material3IconsExtended = "1.7.3"
 
@@ -64,4 +63,3 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "jetbrains-composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 vanniktech-mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech" }
-dependencySkills = { id = "org.dependencyskills.plugin", version.ref = "dependencyskills" }

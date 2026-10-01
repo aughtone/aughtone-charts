@@ -4,7 +4,6 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import io.github.aughtone.charts.theme.ChartColors
 
-@Immutable
 /**
  * The colors [LineChart] uses. Line colors come from the data, in [LineChartSeries.lineColor].
  *
@@ -12,6 +11,7 @@ import io.github.aughtone.charts.theme.ChartColors
  * @param surface Background of the overlay shown on touch or click.
  * @param overlayLine Color of the vertical line marking the selected x-axis value.
  */
+@Immutable
 data class LineChartColors(
     val grid: Color,
     val surface: Color,

@@ -103,7 +103,7 @@ private fun getTimestampFromCursor(
         lineChartData.maxX
     )
 
-private fun retrieveData(
+internal fun retrieveData(
     lineChartData: LineChartData,
     timestampCursor: Long,
 ): List<SeriesAndInterpolatedValue> {
@@ -120,7 +120,9 @@ private fun retrieveData(
             .maxByOrNull { it.x }
 
         if (v0 != null && v1 != null) {
-            val interpolatedValue =
+            // With the cursor exactly on a sample, both neighbours are that sample: there is nothing
+            // to interpolate between, and dividing the zero-width gap would give NaN.
+            val interpolatedValue = if (v0.x == v1.x) v0.y else
                 interpolateBetweenValues(
                     v0.y,
                     v1.y,
@@ -147,7 +149,7 @@ private fun interpolateBetweenValues(v0: Float, v1: Float, t: Float): Float {
 }
 
 @Immutable
-private data class SeriesAndInterpolatedValue(
+internal data class SeriesAndInterpolatedValue(
     val lineChartSeries: LineChartSeries,
     val interpolatedValue: Float,
 )

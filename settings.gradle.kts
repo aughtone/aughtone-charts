@@ -2,10 +2,6 @@
 
 pluginManagement {
     repositories {
-        // The dependency-skills plugin is not published yet; it comes from a local publish, and only it.
-        mavenLocal {
-            content { includeGroupAndSubgroups("org.dependencyskills") }
-        }
         google {
             mavenContent {
                 includeGroupAndSubgroups("androidx")

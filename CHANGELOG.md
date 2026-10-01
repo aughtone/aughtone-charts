@@ -8,9 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - **Kotlin/Wasm target**: The library now publishes `charts-wasm-js`, so Compose Multiplatform apps targeting `wasmJs` — Compose's main web target — can depend on it. The common tests run on it as well.
+- **Sub-hour time ticks**: `TimestampXAxisScale` now steps down through minutes and then seconds when a window is too short for whole-hour ticks, so a live chart over a few minutes gets grid lines, and time labels wherever it passes an x-axis label. Ticks fall on round times in UTC.
+- **`GridDefaults.NoLabel`**: a label that draws nothing, for hiding any label.
+- **An agent skill, shipped inside every sources jar** at `commonMain/skills/io-github-aughtone-charts/SKILL.md`, for the coding agents of projects that depend on the library: what it draws, the traps that compile and are wrong — a missing palette, the default y-axis rounding, `ChartAnimation.Sequenced` on single-value charts — and what changed since `0.0.1`.
 
 ### Changed
 - **Version scheme**: Pre-release suffixes are back, reversing the change recorded under `0.0.1`. Alpha releases are now numbered `0.0.x-alphaN` rather than relying on a `0.x` major/minor alone, so successive alphas order correctly against a published release.
+- **Grid padding is honoured**: `measureChartGrid` accepted `horizontalLinesOffset` but ignored it. The grid, bars and line are now drawn inside it, so `BarChart` and `LineChart` keep `GridDefaults.HORIZONTAL_LINES_OFFSET` clear above and below. The offset is capped at half the canvas height.
+- **Y-axis rounding**: `YAxisScale` now rounds its lower bound down and its upper bound up, and widens a zero-width range by one step. Axis labels differ from earlier releases for ranges that do not cross zero.
+- **`LineChart` draws no time labels by default**: its x-axis label and overlay header printed each timestamp as raw epoch milliseconds. They now default to `GridDefaults.NoLabel`, in `LineChartWithLegend` too; pass a label that formats the timestamp to show times.
 
 ### Removed
 - **iOS framework binary**: The module no longer builds an `AOChartsKit` framework. It was never published, and the charts cannot be called from Swift; iOS consumers use the klib from Kotlin, as before.
@@ -18,6 +24,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 - **A single bubble, or bubbles sharing one radius, got a `NaN` radius**: `BubbleChart` scales radii between the smallest and largest in the list, and with no range between them the scaling divided zero by zero. They are now drawn at the maximum size.
 - **`Bubble` documentation claimed the chart mutated the caller's instances**: the `0.0.1` KDoc said `position` and `velocity` were changed by the layout and that an instance was unsafe to share between charts. The chart lays out copies, so neither was true. The documentation now says so, and notes that `position` does not tell you where a bubble was drawn.
+- **`LineChart`'s line did not match its y-axis labels**: the grid was drawn against the rounded axis range but the line against the raw data range, and a positive minimum rounded up, so a series running from 15 to 25 got an axis of 20 to 30 and was read against the wrong labels. The grid, the line and bars now share one mapping.
+- **`LineChart` crashed with a single timestamp**: x was mapped with integer division by the time range. The point is now centred.
+- **A series whose value never changes was not drawn**: y was mapped through 0 / 0. The axis is now widened around the value.
+- **`BarChart` with every value zero drew `NaN` bar positions**: the axis now runs from zero up one step.
+- **`LineChart`'s overlay showed `NaN` when touched exactly on a sample**, which on a chart with a single timestamp was every touch.
+- **An empty `LineChartSeries` crashed the chart**, although it was documented as allowed.
+- **`BarChart` crashed with no categories, or with a category wider than the first**: its animation values were sized from the first category, so an empty chart threw and a later category with more bars indexed past the end. They are now sized from the widest category.
+- **Transparent colors drew opaque**: line, fill and bubble colors had their alpha replaced by the animation's rather than scaled by it, so a `Color.Transparent` line drew black.
+- **Degenerate settings crashed or produced `NaN`**: a tick count of zero threw in `TimestampXAxisScale`, and a rounding step of zero gave `YAxisScale` `NaN` bounds.
+- **Documentation**: `YAxisScale` claimed its axis always contained the data and that it produced at most `maxTickCount` intervals; `measureChartGrid` described an offset it ignored; and KDoc on 18 declarations sat between an annotation and the declaration, and now sits above the annotation as it does elsewhere.
 
 ## [0.0.1] - 2026-09-21
 

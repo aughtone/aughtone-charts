@@ -8,10 +8,17 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.vanniktech.mavenPublish)
-    // Ships the library's agent skill in every sources jar, for dependent projects' agents.
-    // It lives at src/commonMain/skills/<name>/SKILL.md; `dependencySkillName` prints <name>.
-    alias(libs.plugins.dependencySkills)
 }
+
+// Ships this library's agent skill in every sources jar, where a consumer's tooling reads it.
+tasks.withType<Zip>()
+    .matching { it.name == "sourcesJar" || it.name.endsWith("SourcesJar") }
+    .configureEach {
+        from("src/commonMain/skills") {
+            include("*/SKILL.md", "*/references/**", "*/assets/**")
+            into("commonMain/skills")
+        }
+    }
 
 group = libs.versions.namespace.get()
 version = libs.versions.versionName.get()

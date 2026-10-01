@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import io.github.aughtone.charts.ChartAnimation
 import io.github.aughtone.charts.StartAnimation
 import io.github.aughtone.charts.bubble.BubbleDefaults.MINIMUM_BUBBLE_RADIUS
+import io.github.aughtone.charts.fadedBy
 import io.github.aughtone.charts.mapValueToDifferentRange
 import kotlin.math.min
 import kotlin.random.Random
@@ -146,7 +147,7 @@ private fun BubbleComp(
             .size(bubble.radius.dp * 2)
             .offset((bubble.position.x - bubble.radius).dp, (bubble.position.y - bubble.radius).dp)
             .drawBehind {
-                drawCircle(bubble.color.copy(alpha = animationScale))
+                drawCircle(bubble.color.fadedBy(animationScale))
             }
             .alpha(animationScale),
         contentAlignment = Alignment.Center
@@ -155,13 +156,13 @@ private fun BubbleComp(
     }
 }
 
-@Composable
 /**
  * Renders a [BubbleChart] over [bubbleChartSampleData], for previewing the chart in isolation.
  *
  * Intended for development rather than production use: the data is generated at random and
  * differs on every composition.
  */
+@Composable
 fun BubbleChartPreview() {
     val data = bubbleChartSampleData()
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -172,13 +173,13 @@ fun BubbleChartPreview() {
     }
 }
 
-@Composable
 /**
  * Builds four bubbles with random values and colors, for previews and examples.
  *
  * Intended for development rather than production use: the values are generated at random and
  * are not stable between calls.
  */
+@Composable
 fun bubbleChartSampleData(): List<Bubble> {
     val bubbles = mutableListOf<Bubble>()
     for (i in 0 until 4) {

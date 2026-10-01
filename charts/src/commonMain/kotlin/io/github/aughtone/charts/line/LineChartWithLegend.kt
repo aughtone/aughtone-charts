@@ -25,9 +25,9 @@ fun LineChartWithLegend(
     maxHorizontalLines: Int = GridDefaults.NUMBER_OF_GRID_LINES,
     animation: ChartAnimation = ChartAnimation.Simple(),
     colors: LineChartColors = ChartTheme.colors.lineChartColors,
-    xAxisLabel: @Composable (value: Any) -> Unit = GridDefaults.XAxisLabel,
+    xAxisLabel: @Composable (value: Any) -> Unit = GridDefaults.NoLabel,
     yAxisLabel: @Composable (value: Any) -> Unit = GridDefaults.YAxisLabel,
-    overlayHeaderLabel: @Composable (value: Any) -> Unit = GridDefaults.OverlayHeaderLabel,
+    overlayHeaderLabel: @Composable (value: Any) -> Unit = GridDefaults.NoLabel,
     overlayDataEntryLabel: @Composable (dataName: String, value: Any) -> Unit = GridDefaults.OverlayDataEntryLabel,
     legendItemLabel: @Composable (String) -> Unit = GridDefaults.LegendItemLabel,
 ) {
