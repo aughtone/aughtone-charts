@@ -44,7 +44,8 @@ fun DrawScope.drawChartGrid(grid: ChartGrid, color: Color) {
  *
  * @param xAxisScale Supplies the x-axis range and tick spacing.
  * @param yAxisScale Supplies the y-axis range and tick spacing.
- * @param horizontalLinesOffset Padding kept above and below the plotted range.
+ * @param horizontalLinesOffset Space kept clear above and below the plotted range, so the top and
+ * bottom lines are not drawn on the edge. It is capped at half the canvas height.
  * @return The measured grid, ready to pass to [drawChartGrid].
  */
 fun DrawScope.measureChartGrid(
@@ -53,11 +54,8 @@ fun DrawScope.measureChartGrid(
     horizontalLinesOffset: Dp
 ): ChartGrid {
 
-    val horizontalLines = measureHorizontalLines(
-        axisScale = yAxisScale,
-        startPosition = size.height,
-        endPosition = 0f
-    )
+    val area = plotArea(size.height, horizontalLinesOffset.toPx())
+    val horizontalLines = measureHorizontalLines(axisScale = yAxisScale, area = area)
 
     val verticalLines = measureVerticalLines(
         axisScale = xAxisScale,
@@ -73,30 +71,23 @@ fun DrawScope.measureChartGrid(
     return ChartGrid(
         verticalLines = verticalLines,
         horizontalLines = horizontalLines,
-        zeroPosition = LineParameters(
-            zero.mapValueToDifferentRange(
-                yAxisScale.min,
-                yAxisScale.max,
-                size.height,
-                0f
-            ),
-            zero
-        )
+        zeroPosition = LineParameters(yAxisScale.positionOf(zero, area), zero)
     )
 }
 
-private fun measureHorizontalLines(
+internal fun measureHorizontalLines(
     axisScale: YAxisScale,
-    startPosition: Float,
-    endPosition: Float
+    area: PlotArea,
 ): List<LineParameters> {
     val horizontalLines = mutableListOf<LineParameters>()
 
+    // No range, or no step to walk it with: draw the one line there is, labelled with its real
+    // value rather than zero.
     if (axisScale.max == axisScale.min || axisScale.tick == 0f)
         return listOf(
             LineParameters(
-                position = startPosition / 2f,
-                value = 0
+                position = axisScale.positionOf(axisScale.min, area),
+                value = axisScale.min
             )
         )
 
@@ -104,12 +95,7 @@ private fun measureHorizontalLines(
     var currentValue = axisScale.min
 
     while (currentValue in axisScale.min..axisScale.max) {
-        val currentPosition = currentValue.mapValueToDifferentRange(
-            axisScale.min,
-            axisScale.max,
-            startPosition,
-            endPosition
-        )
+        val currentPosition = axisScale.positionOf(currentValue, area)
         horizontalLines.add(
             LineParameters(
                 position = currentPosition,
@@ -147,3 +133,32 @@ private fun measureVerticalLines(
     }
     return verticalLines
 }
+
+/**
+ * The vertical extent a grid, and everything drawn against it, is mapped into, in pixels: the axis
+ * maximum sits at [top] and the minimum at [bottom].
+ */
+internal class PlotArea(val top: Float, val bottom: Float)
+
+/**
+ * The plot area for a canvas [height] with [offset] kept clear above and below. The offset is
+ * capped at half the height, so a large one collapses the area rather than turning it upside down.
+ */
+internal fun plotArea(height: Float, offset: Float): PlotArea {
+    val clear = offset.coerceIn(0f, height / 2f)
+    return PlotArea(top = clear, bottom = height - clear)
+}
+
+/**
+ * Where [value] sits within [area] on this scale.
+ *
+ * Everything drawn against a grid goes through this one mapping — the grid lines, the zero line,
+ * bars and line points — so they cannot drift apart. A scale with no range places everything
+ * mid-area rather than dividing by zero.
+ */
+internal fun YAxisScale.positionOf(value: Float, area: PlotArea): Float =
+    if (max == min) {
+        (area.top + area.bottom) / 2f
+    } else {
+        value.mapValueToDifferentRange(min, max, area.bottom, area.top)
+    }

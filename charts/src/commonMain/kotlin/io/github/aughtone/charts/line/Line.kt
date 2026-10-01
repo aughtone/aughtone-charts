@@ -1,33 +1,31 @@
 package io.github.aughtone.charts.line
 
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.unit.Dp
+import io.github.aughtone.charts.fadedBy
+import io.github.aughtone.charts.grid.PlotArea
+import io.github.aughtone.charts.grid.axisscale.YAxisScale
+import io.github.aughtone.charts.grid.positionOf
 import io.github.aughtone.charts.mapValueToDifferentRange
 
 internal fun DrawScope.drawLineChart(
     lineChartData: LineChartData,
-    graphTopPadding: Dp,
-    graphBottomPadding: Dp,
+    yAxisScale: YAxisScale,
+    area: PlotArea,
     alpha: List<Float>,
 ) {
     // calculate path
     val path = Path()
     lineChartData.series.forEachIndexed { seriesIndex, data ->
 
-        val mappedPoints =
-            mapDataToPixels(
-                lineChartData,
-                data,
-                size,
-                graphTopPadding.toPx(),
-                graphBottomPadding.toPx()
-            )
+        val mappedPoints = mapDataToPixels(lineChartData, data, yAxisScale, area, size.width)
+        // An empty series has nothing to draw, and closing its fill needs a first and last point.
+        if (mappedPoints.isEmpty()) return@forEachIndexed
+
         val connectionPoints = calculateConnectionPointsForBezierCurve(mappedPoints)
 
         path.reset() // reuse path
@@ -49,7 +47,7 @@ internal fun DrawScope.drawLineChart(
         // draw line
         drawPath(
             path = path,
-            color = data.lineColor.copy(alpha[seriesIndex]),
+            color = data.lineColor.fadedBy(alpha[seriesIndex]),
             style = Stroke(
                 width = data.lineWidth.toPx(),
                 pathEffect = if (data.dashedLine) dashedPathEffect else null
@@ -64,8 +62,8 @@ internal fun DrawScope.drawLineChart(
             Brush.verticalGradient(
                 listOf(
                     Color.Transparent,
-                    data.fillColor.copy(alpha[seriesIndex] / 12),
-                    data.fillColor.copy(alpha[seriesIndex] / 6)
+                    data.fillColor.fadedBy(alpha[seriesIndex] / 12),
+                    data.fillColor.fadedBy(alpha[seriesIndex] / 6)
                 ),
                 startY = path.getBounds().bottom,
                 endY = path.getBounds().top,
@@ -75,30 +73,25 @@ internal fun DrawScope.drawLineChart(
     }
 }
 
-private fun mapDataToPixels(
+/**
+ * Maps a series' points to canvas pixels: x across [width] over the chart's time range, and y into
+ * [area] through [yAxisScale] — the same scale and area the grid is drawn with, so the line sits
+ * against its own axis labels.
+ */
+internal fun mapDataToPixels(
     lineChartData: LineChartData,
     currentSeries: LineChartSeries,
-    canvasSize: Size,
-    graphTopPadding: Float = 0f,
-    graphBottomPadding: Float,
-): List<PointF> {
-    val mappedPoints = currentSeries.listOfPoints.map {
-        val x = it.x.mapValueToDifferentRange(
-            lineChartData.minX,
-            lineChartData.maxX,
-            0L,
-            canvasSize.width.toLong()
-        ).toFloat()
-        val y = it.y.mapValueToDifferentRange(
-            lineChartData.minY,
-            lineChartData.maxY,
-            canvasSize.height - graphBottomPadding,
-            graphTopPadding
-        )
-        PointF(x, y)
+    yAxisScale: YAxisScale,
+    area: PlotArea,
+    width: Float,
+): List<PointF> = currentSeries.listOfPoints.map {
+    // A single timestamp leaves no time range to spread across: centre it rather than divide by zero.
+    val x = if (lineChartData.maxX == lineChartData.minX) {
+        width / 2f
+    } else {
+        it.x.mapValueToDifferentRange(lineChartData.minX, lineChartData.maxX, 0f, width)
     }
-
-    return mappedPoints
+    PointF(x, yAxisScale.positionOf(it.y, area))
 }
 
 private fun calculateConnectionPointsForBezierCurve(points: List<PointF>): MutableList<Pair<PointF, PointF>> {

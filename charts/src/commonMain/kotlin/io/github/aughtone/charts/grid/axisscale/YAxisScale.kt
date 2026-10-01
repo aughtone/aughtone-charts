@@ -8,14 +8,20 @@ import kotlin.math.pow
 /**
  * A y-axis whose bounds are widened to round numbers and divided into readable ticks.
  *
- * The bounds are rounded away from zero to a multiple of [roundClosestTo], so the axis always
- * contains the data. Tick spacing is then chosen as a round number giving at most [maxTickCount]
- * intervals. A NaN bound is treated as zero, and a zero-width range yields a tick of zero.
+ * The lower bound is rounded down and the upper bound up, to multiples of [roundClosestTo], so the
+ * axis always contains the data. A range with no width — a constant series, or values that are all
+ * zero — is widened by one step, so there is always a range to draw against: upwards from zero, so a
+ * baseline stays at the bottom, or evenly around any other value, so a flat line sits mid-chart. A
+ * NaN bound is treated as zero.
+ *
+ * Tick spacing is then a round number — 1, 2 or 5 times a power of ten — close to the range divided
+ * by [maxTickCount]. Because the spacing is rounded, the axis can end up with a few more intervals
+ * than [maxTickCount].
  *
  * @param min Lowest value the axis must contain.
  * @param max Highest value the axis must contain.
- * @param maxTickCount Upper bound on the number of intervals.
- * @param roundClosestTo Multiple the bounds are rounded out to.
+ * @param maxTickCount The number of intervals to aim for.
+ * @param roundClosestTo Multiple the bounds are rounded out to. Values below 1 are treated as 1.
  */
 class YAxisScale(
     min: Float,
@@ -28,32 +34,24 @@ class YAxisScale(
     val max: Float
 
     init {
-        this.min = if (!min.isNaN()) {
-            min.getClosest(roundClosestTo)
-        } else {
-            0f
+        val step = roundClosestTo.coerceAtLeast(1)
+        // Rounding the lower bound down and the upper bound up is what keeps the data inside the
+        // axis whatever its sign. Adding 0f turns a -0.0 from ceil into 0.0, so no label reads -0.
+        var low = floor((if (min.isNaN()) 0f else min) / step) * step + 0f
+        var high = ceil((if (max.isNaN()) 0f else max) / step) * step + 0f
+        if (low == high) {
+            if (low == 0f) {
+                high = step.toFloat()
+            } else {
+                low -= step
+                high += step
+            }
         }
-        this.max = if (!max.isNaN()) {
-            max.getClosest(roundClosestTo)
-        } else {
-            0f
-        }
+        this.min = low
+        this.max = high
 
         val range = niceNum(this.max - this.min, false)
         this.tick = niceNum(range / (maxTickCount), true)
-    }
-
-    /**
-     * Rounds away from zero to the next multiple of [n], so the bound always contains the data.
-     *
-     * Works on the Float directly: an earlier form called toInt() first, and that truncation
-     * meant a max of 40.7 rounded to 40 rather than 50, leaving the topmost point outside the
-     * plotted area.
-     */
-    private fun Float.getClosest(n: Int) = when {
-        this > 0f -> ceil(this / n) * n
-        this < 0f -> floor(this / n) * n
-        else -> 0f
     }
 
     /**

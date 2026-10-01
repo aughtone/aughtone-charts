@@ -5,7 +5,9 @@
 
 ![Charts Banner](assets/charts-banner.svg)
 
-Chart composables for Kotlin Multiplatform projects. Targets Android, JVM/Desktop, iOS and JS.
+Chart composables for Compose Multiplatform projects. Targets Android, JVM/Desktop, iOS and the web (Kotlin/JS and Kotlin/Wasm).
+
+It is called from Kotlin only. Every chart is a `@Composable`, which Swift and JavaScript cannot call, and the library publishes no Apple framework, Swift package, npm package or `@JsExport`ed API: its iOS, JavaScript and Wasm artifacts are klibs for Kotlin consumers.
 
 > [!WARNING]
 > **This library is alpha (`0.0.x`), and its API is still being worked out.** Composable signatures, config classes and the defaults objects may change between releases, and some changes will be breaking. Each one is listed in the [changelog](CHANGELOG.md).
@@ -44,6 +46,8 @@ The library provides following components:
  - [Simple charts](#simple-charts) — `SimpleLineChart`, `SimpleBarChart` and `ArcProgressBar`
 
 `ChartLegend` can also be used on its own to place a legend elsewhere in your own layout.
+
+`BarChart`, `LineChart`, `Dial` and `GasBottle`, with their variants, read their colors from `LocalChartColors`, which has no usable default: provide a palette above them, as described under [theming](#-theming), or they draw blank. `PieChart` and `BubbleChart` take their colors from the data, and the simple charts from `MaterialTheme`.
 
 Most of the components have arguments like:
  - **data** - depends on chart type it's complex dataset or few primitives arguments
@@ -106,6 +110,8 @@ BarChart(
 
 There is another component called `BarChartWithLegend`. It renders bar chart with legend.
 
+The y-axis is rounded out to a multiple of `BarChartConfig.roundMinMaxClosestTo`, 10 by default: the minimum down, the maximum up. Data spanning less than one step sits in a thin band of the chart, so pass a smaller step for small or narrow values. `LineChart` takes the same parameter.
+
 ### BubbleChart
 ![Bubble chart](assets/bubble-chart.png)
 
@@ -166,12 +172,12 @@ Dial(
         ) {
             Text(
                 text = "$it°C",
-                style = MaterialTheme.typography.h4,
+                style = MaterialTheme.typography.headlineMedium,
                 color = Color.Yellow
             )
             Text(
                 text = "outside temperature",
-                style = MaterialTheme.typography.body2,
+                style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(top = 12.dp)
             )
         }
@@ -179,8 +185,9 @@ Dial(
 )
 ```
 
-There is another component `ProcentageDial`. It accepts only one data argument `percentage` in [0-100] range.
+There is another component `PercentageDial`. It accepts only one data argument `percentage` in [0-100] range.
 
+`Dial`, `PercentageDial`, `GasBottle` and `PieChart` show a single value, and throw `UnsupportedOperationException` if given `ChartAnimation.Sequenced`; use `ChartAnimation.Simple()` or `ChartAnimation.Disabled`.
 
 ### GasBottle
 ![Gas bottle chart](assets/gas-bottle.png)
@@ -198,11 +205,16 @@ GasBottle(
 )
 ```
 
+`percentage` runs from 0 to 100 and is clamped to it. A value from 1 to 5 is drawn as 5, so a nearly empty bottle stays visible.
+
 ### LineChart
 ![Line chart](assets/line-chart.png)
 
-Before using component the LineChartData has to be prepared:
+Before using component the LineChartData has to be prepared. Each point's `x` is a timestamp in epoch milliseconds:
 ```kotlin
+val start = 1_700_000_000_000L // any timestamp, in epoch milliseconds
+val day = 1.days.inWholeMilliseconds
+
 val lineData = remember {
     LineChartData(
         series = (1..3).map {
@@ -215,7 +227,7 @@ val lineData = remember {
                 )[it - 1],
                 listOfPoints = (1..10).map { point ->
                     LineChartPoint(
-                        x = DateTime.now().minus(TimeSpan(point * 24 * 60 * 60 * 1000.0)).unixMillisLong,
+                        x = start + point * day,
                         y = (1..15).random().toFloat(),
                     )
                 }
@@ -225,26 +237,22 @@ val lineData = remember {
 }
 ```
 
+The chart draws no time labels unless you give it some: `xAxisLabel` and `overlayHeaderLabel` default to `GridDefaults.NoLabel`, because the chart cannot know how your reader wants time shown. Each is given a timestamp as a `Long` in epoch milliseconds. To show times, format it and wrap the stock label, which keeps its styling. This uses [aughtone-format](https://github.com/aughtone/aughtone-format), but any formatter works:
 ```kotlin
+fun formatDate(epochMillis: Long): String =
+    Instant.fromEpochMilliseconds(epochMillis)
+        .format(dateStyle = DateTimeStyle.Short, timeStyle = DateTimeStyle.None)
+
 LineChart(
     lineChartData = lineData,
     modifier = Modifier.height(300.dp),
-    xAxisLabel = {
-        Text(
-            fontSize = 12.sp,
-            text = DateTime.fromUnix(it as Long).format("yyyy-MM-dd"),
-            textAlign = TextAlign.Center
-        )
-    },
-    overlayHeaderLabel = {
-        Text(
-            text = DateTime.fromUnix(it as Long).format("yyyy-MM-dd"),
-            style = MaterialTheme.typography.overline
-        )
-    },
+    xAxisLabel = { GridDefaults.XAxisLabel(formatDate(it as Long)) },
+    overlayHeaderLabel = { GridDefaults.OverlayHeaderLabel(formatDate(it as Long)) },
     animation = ChartAnimation.Sequenced()
 )
 ```
+
+Time ticks fall on round times counted from the epoch — whole hours, or multiples of a minute or second step for short windows — which is UTC. A formatter that shows local time will label them in the reader's zone.
 
 
 ### PieChart
@@ -312,7 +320,7 @@ ArcProgressBar(
 With `adaptToData = true` (the default) the line and bar charts scale to the range of the values given; set it to `false` when the values are already normalised to `0f..1f`. `ArcProgressBar` always takes `progress` in `0f..1f`, and its arc can be swept elsewhere with `startAngle` and `totalArcDegrees`.
 
 ## 🎨 Theming
-The easiest way to set the same colors for all charts is to provide `ChartColors` in the app theme.
+Provide `ChartColors` in the app theme. This is required, not just convenient: `LocalChartColors` defaults to `Color.Unspecified` throughout, so a chart with no palette above it draws no grid and an invisible tooltip.
 ```kotlin
 private val chartColors = ChartColors(
     primary = Color.Green,
@@ -360,6 +368,10 @@ BarChart(
     colors = ChartColors(...).barChartColors,
 )
 ```
+
+## 🤖 Agent skill
+
+The sources jar carries a skill for coding agents, at `commonMain/skills/io-github-aughtone-charts/SKILL.md`, rather than hosting it anywhere. An agent that resolves `io.github.aughtone:charts` reads the guidance for exactly the version it resolved: what the library is for, the patterns that cover most callers, the traps that compile and are wrong, and what changed since the previous release. It follows the [Agent Skills specification](https://agentskills.io/specification), and its source is [`charts/src/commonMain/skills/io-github-aughtone-charts/SKILL.md`](charts/src/commonMain/skills/io-github-aughtone-charts/SKILL.md).
 
 ## 📄 License
 Apache License 2.0 — see [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md).

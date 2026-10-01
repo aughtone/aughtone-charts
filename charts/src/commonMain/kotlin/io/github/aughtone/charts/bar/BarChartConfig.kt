@@ -10,8 +10,10 @@ import io.github.aughtone.charts.grid.GridDefaults
  * @param thickness Width of a single bar
  * @param cornerRadius 0 for square bars, thickness/2 for fully rounded corners
  * @param barsSpacing The space between bars in a cluster
- * @param maxHorizontalLinesCount Max number of lines that are allowed to draw for marking y-axis
- * @param roundMinMaxClosestTo Number to which min and max range will be rounded to
+ * @param maxHorizontalLinesCount Roughly how many horizontal grid lines to draw. Their spacing is
+ * rounded to 1, 2 or 5 times a power of ten, so there can be a few more.
+ * @param roundMinMaxClosestTo Multiple the y-axis bounds are rounded out to: the minimum down and
+ * the maximum up, so the axis always contains the data.
  */
 @Immutable
 data class BarChartConfig(

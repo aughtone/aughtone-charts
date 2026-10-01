@@ -37,6 +37,7 @@ import io.github.aughtone.charts.grid.axisscale.TimestampXAxisScale
 import io.github.aughtone.charts.grid.axisscale.YAxisScale
 import io.github.aughtone.charts.grid.drawChartGrid
 import io.github.aughtone.charts.grid.measureChartGrid
+import io.github.aughtone.charts.grid.plotArea
 import io.github.aughtone.charts.theme.ChartColors
 import io.github.aughtone.charts.theme.ChartTheme
 
@@ -58,15 +59,23 @@ val dashedPathEffect = PathEffect.dashPathEffect(floatArrayOf(5f, 5f), 0f)
  * @param modifier Modifier applied to the chart.
  * @param colors Colors used are [LineChartColors.grid], [LineChartColors.surface] and
  * [LineChartColors.overlayLine].
- * @param xAxisLabel Composable to mark the values on the x-axis.
+ * @param xAxisLabel Composable for each label under the time axis. It is given the tick's
+ * timestamp as a `Long`, in epoch milliseconds. Draws nothing by default, since the chart cannot
+ * know how the reader wants time shown; wrap [GridDefaults.XAxisLabel] around a formatted time to
+ * show one.
  * @param yAxisLabel Composable to mark the values on the y-axis.
- * @param overlayHeaderLabel Composable to show the current x-axis value on the overlay balloon
+ * @param overlayHeaderLabel Composable heading the overlay balloon. It is given the timestamp under
+ * the cursor as a `Long`, in epoch milliseconds. Draws nothing by default; wrap
+ * [GridDefaults.OverlayHeaderLabel] around a formatted time to show one.
  * @param overlayDataEntryLabel Composable to show the value of each line in the overlay balloon
  * for that specific x-axis value
  * @param animation Animation to use
- * @param maxVerticalLines Max number of lines, representing the x-axis values
- * @param maxHorizontalLines Max number of lines, representing the y-axis values
- * @param roundMinMaxClosestTo Number to which min and max range will be rounded to
+ * @param maxVerticalLines Roughly how many vertical grid lines to draw across the time axis. See
+ * [TimestampXAxisScale] for how their times are chosen.
+ * @param maxHorizontalLines Roughly how many horizontal grid lines to draw. Their spacing is rounded
+ * to 1, 2 or 5 times a power of ten, so there can be a few more. See [YAxisScale].
+ * @param roundMinMaxClosestTo Multiple the y-axis bounds are rounded out to: the minimum down and
+ * the maximum up, so the axis always contains the data.
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -74,9 +83,9 @@ fun LineChart(
     lineChartData: LineChartData,
     modifier: Modifier = Modifier,
     colors: LineChartColors = ChartTheme.colors.lineChartColors,
-    xAxisLabel: @Composable (value: Any) -> Unit = GridDefaults.XAxisLabel,
+    xAxisLabel: @Composable (value: Any) -> Unit = GridDefaults.NoLabel,
     yAxisLabel: @Composable (value: Any) -> Unit = GridDefaults.YAxisLabel,
-    overlayHeaderLabel: @Composable (value: Any) -> Unit = GridDefaults.OverlayHeaderLabel,
+    overlayHeaderLabel: @Composable (value: Any) -> Unit = GridDefaults.NoLabel,
     overlayDataEntryLabel: @Composable (dataName: String, value: Any) -> Unit = GridDefaults.OverlayDataEntryLabel,
     animation: ChartAnimation = ChartAnimation.Simple(),
     maxVerticalLines: Int = GridDefaults.NUMBER_OF_GRID_LINES,
@@ -121,6 +130,13 @@ fun LineChart(
                     .fillMaxWidth()
                     .weight(1f)
                     .drawBehind {
+                        // One scale for the grid and the line, so the line sits against its own labels.
+                        val yAxisScale = YAxisScale(
+                            min = lineChartData.minY,
+                            max = lineChartData.maxY,
+                            maxTickCount = maxHorizontalLines - 1,
+                            roundClosestTo = roundMinMaxClosestTo,
+                        )
                         val lines = measureChartGrid(
                             xAxisScale = TimestampXAxisScale(
                                 min = lineChartData.minX,
@@ -128,12 +144,7 @@ fun LineChart(
                                 maxTicksCount = maxVerticalLines - 1
 
                             ),
-                            yAxisScale = YAxisScale(
-                                min = lineChartData.minY,
-                                max = lineChartData.maxY,
-                                maxTickCount = maxHorizontalLines - 1,
-                                roundClosestTo = roundMinMaxClosestTo,
-                            ),
+                            yAxisScale = yAxisScale,
                             horizontalLinesOffset = horizontalLinesOffset
                         )
                         verticalGridLines = lines.verticalLines
@@ -142,8 +153,8 @@ fun LineChart(
 
                         drawLineChart(
                             lineChartData = lineChartData,
-                            graphTopPadding = horizontalLinesOffset,
-                            graphBottomPadding = horizontalLinesOffset,
+                            yAxisScale = yAxisScale,
+                            area = plotArea(size.height, horizontalLinesOffset.toPx()),
                             alpha = alpha,
                         )
                     }

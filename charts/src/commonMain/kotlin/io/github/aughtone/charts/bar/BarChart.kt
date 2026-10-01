@@ -33,6 +33,7 @@ import io.github.aughtone.charts.grid.axisscale.FixedTicksXAxisScale
 import io.github.aughtone.charts.grid.axisscale.YAxisScale
 import io.github.aughtone.charts.grid.drawChartGrid
 import io.github.aughtone.charts.grid.measureChartGrid
+import io.github.aughtone.charts.grid.plotArea
 import io.github.aughtone.charts.line.PointF
 import io.github.aughtone.charts.theme.ChartColors
 import io.github.aughtone.charts.theme.ChartTheme
@@ -64,8 +65,7 @@ fun BarChart(
     overlayDataEntryLabel: @Composable (dataName: String, value: Any) -> Unit = GridDefaults.OverlayDataEntryLabel,
 ) {
     val verticalLinesCount = remember(data) { data.maxX.toInt() + 1 }
-    val horizontalLinesOffset =
-        GridDefaults.HORIZONTAL_LINES_OFFSET // TODO check why y-axis-labels get the other way around with large values for offset
+    val horizontalLinesOffset = GridDefaults.HORIZONTAL_LINES_OFFSET
 
     val animationPlayed = StartAnimation(animation, data)
 
@@ -75,14 +75,14 @@ fun BarChart(
     var selectedBar by remember { mutableStateOf<Pair<PointF, BarChartBar>?>(null) }
 
     val valueScale = when (animation) {
-        ChartAnimation.Disabled -> data.categories.first().entries.indices.map { 1f }
-        is ChartAnimation.Simple -> data.categories.first().entries.indices.map {
+        ChartAnimation.Disabled -> List(data.barsPerCategory()) { 1f }
+        is ChartAnimation.Simple -> (0 until data.barsPerCategory()).map {
             animateFloatAsState(
                 targetValue = if (animationPlayed) 1f else 0f,
                 animationSpec = animation.animationSpec()
             ).value
         }
-        is ChartAnimation.Sequenced -> data.categories.first().entries.indices.map {
+        is ChartAnimation.Sequenced -> (0 until data.barsPerCategory()).map {
             animateFloatAsState(
                 targetValue = if (animationPlayed) 1f else 0f,
                 animationSpec = animation.animationSpec(it)
@@ -147,8 +147,8 @@ fun BarChart(
                     chartBars = drawBarChart(
                         data = data,
                         config = config,
-                        yAxisUpperValue = yAxisScale.max,
-                        yAxisLowerValue = yAxisScale.min,
+                        yAxisScale = yAxisScale,
+                        area = plotArea(size.height, horizontalLinesOffset.toPx()),
                         valueScale = valueScale,
                         yAxisZeroPosition = grid.zeroPosition.position,
                     )
@@ -213,3 +213,12 @@ private fun BoxWithConstraintsScope.SelectedValueLabel(
         overlayDataEntryLabel(data.data.x, data.data.y)
     }
 }
+
+/**
+ * How many bars the widest category has, which is how many animation values [BarChart] needs:
+ * bars at the same position in every category share one. Zero when there are no categories.
+ *
+ * Sizing this from the first category instead threw on a chart with no categories, and ran off the
+ * end of the list for any later category with more bars than the first.
+ */
+internal fun BarChartData.barsPerCategory(): Int = categories.maxOfOrNull { it.entries.size } ?: 0

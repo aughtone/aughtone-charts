@@ -29,7 +29,6 @@ import io.github.aughtone.charts.ChartAnimation
 import io.github.aughtone.charts.bar.BarChartConfig
 import io.github.aughtone.charts.grid.GridDefaults
 
-@Composable
 /**
  * A standalone legend, laid out as an adaptive grid.
  *
@@ -43,6 +42,7 @@ import io.github.aughtone.charts.grid.GridDefaults
  * @param legendItemLabel Composable to show for each entry. The color symbol drawn to its left
  * is not customizable.
  */
+@Composable
 fun ChartLegend(
     legendData: List<LegendItemData>,
     modifier: Modifier = Modifier,
@@ -131,7 +131,6 @@ private fun LegendItem(
     }
 }
 
-@Immutable
 /**
  * One entry in a chart legend.
  *
@@ -140,6 +139,7 @@ private fun LegendItem(
  * @param color Color of that symbol, matching the series it stands for.
  * @param dashed Whether the symbol is drawn dashed, matching a dashed line series.
  */
+@Immutable
 data class LegendItemData(
     val name: String,
     val symbolShape: SymbolShape,
