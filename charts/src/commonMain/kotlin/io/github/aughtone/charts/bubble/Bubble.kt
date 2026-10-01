@@ -5,17 +5,20 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import kotlin.random.Random
 
 /**
- * One bubble in a [BubbleChart], carrying both its data and its live layout state.
+ * One bubble in a [BubbleChart].
  *
- * [position] and [velocity] are mutated by the packing simulation while the chart settles, so
- * an instance is not safe to share between charts. Layout is seeded randomly and bubbles do not
- * come to rest in the same place twice.
+ * [BubbleChart] lays out copies of the bubbles it is given, so an instance passed to a chart is
+ * never moved and can be shared between charts. Its [position] and [velocity] are the packing
+ * simulation's working state and stay at their initial values on an instance you hold: [position]
+ * does not tell you where the bubble was drawn.
  *
  * @param name Label drawn under the value.
- * @param value Value the bubble represents; drives its size relative to the other bubbles.
+ * @param value Number shown in the bubble's default label. It sets the size only through
+ * [radius], which defaults to it.
  * @param icon Icon drawn above the value.
  * @param color Fill color of the bubble.
- * @param radius Current drawn radius, scaled to the chart while laying out.
+ * @param radius Size of the bubble relative to the others in the same chart; defaults to [value].
+ * [BubbleChart] scales every radius to fit the space it has, so only the ratios matter.
  */
 data class Bubble(
     val name: String,

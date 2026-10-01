@@ -4,13 +4,13 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import io.github.aughtone.charts.theme.ChartColors
 
-@Immutable
 /**
  * The colors [GasBottle] draws with. The fill is interpolated between the two as the value moves.
  *
  * @param fullGasBottle Color at 100 percent.
  * @param emptyGasBottle Color at 0 percent.
  */
+@Immutable
 data class GasBottleColors(
     val fullGasBottle: Color,
     val emptyGasBottle: Color,

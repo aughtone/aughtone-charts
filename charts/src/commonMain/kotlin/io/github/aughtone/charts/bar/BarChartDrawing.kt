@@ -4,13 +4,15 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import io.github.aughtone.charts.mapValueToDifferentRange
+import io.github.aughtone.charts.grid.PlotArea
+import io.github.aughtone.charts.grid.axisscale.YAxisScale
+import io.github.aughtone.charts.grid.positionOf
 
 internal fun DrawScope.drawBarChart(
     data: BarChartData,
     config: BarChartConfig,
-    yAxisUpperValue: Float,
-    yAxisLowerValue: Float,
+    yAxisScale: YAxisScale,
+    area: PlotArea,
     valueScale: List<Float>,
     yAxisZeroPosition: Float
 ): List<BarChartBar> {
@@ -31,12 +33,7 @@ internal fun DrawScope.drawBarChart(
         category.entries.mapIndexed { entryIndex, entry ->
             val x = clusterXOffset + entryIndex * (barWidth + barsHorizontalSpacing)
             val y = entry.y * valueScale[entryIndex]
-            val currentPosition = y.mapValueToDifferentRange(
-                yAxisLowerValue,
-                yAxisUpperValue,
-                size.height,
-                0f
-            )
+            val currentPosition = yAxisScale.positionOf(y, area)
             val barHeight = if (currentPosition < yAxisZeroPosition) {
                 yAxisZeroPosition - currentPosition
             } else {

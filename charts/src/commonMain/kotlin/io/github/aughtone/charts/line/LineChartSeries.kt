@@ -6,19 +6,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.aughtone.charts.grid.GridChartData
 
-@Immutable
 /**
  * One plotted point in a [LineChartSeries].
  *
  * @param x Timestamp of the point, in epoch milliseconds.
  * @param y Value at that timestamp.
  */
+@Immutable
 data class LineChartPoint(
     val x: Long,
     val y: Float,
 )
 
-@Immutable
 /**
  * One line within a [LineChartData], together with how it is drawn.
  *
@@ -30,8 +29,10 @@ data class LineChartPoint(
  * @param lineColor Color of the line, and of its legend symbol.
  * @param fillColor Color of the shading under the line. Defaults to [lineColor].
  * @param dashedLine Whether the line is drawn dashed.
- * @param listOfPoints Points making up the line. May be empty.
+ * @param listOfPoints Points making up the line. May be empty, in which case the series draws
+ * nothing.
  */
+@Immutable
 data class LineChartSeries(
     val dataName: String,
     val lineWidth: Dp = 3.dp,
@@ -78,7 +79,6 @@ data class LineChartSeries(
     }
 }
 
-@Immutable
 /**
  * Data for [LineChart]: one or more series sharing a single pair of axes.
  *
@@ -86,6 +86,7 @@ data class LineChartSeries(
  *
  * @param series Lines to draw. May be empty, in which case every bound is zero.
  */
+@Immutable
 data class LineChartData(
     val series: List<LineChartSeries>,
 ) : GridChartData {

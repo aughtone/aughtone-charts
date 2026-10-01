@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
@@ -105,6 +106,14 @@ fun Number.round(decimals: Int = 2): String {
  */
 private fun String.withoutTrailingZero(): String =
     if (endsWith(".0")) dropLast(2) else this
+
+/**
+ * This color with its alpha scaled by [factor], keeping the alpha it already had.
+ *
+ * Used to fade a caller's color in with an animation. Replacing the alpha instead would make a
+ * transparent color opaque, so a series or bubble could not be hidden or left unshaded.
+ */
+internal fun Color.fadedBy(factor: Float): Color = copy(alpha = alpha * factor)
 
 @Composable
 internal fun StartAnimation(animation: ChartAnimation, data: Any): Boolean {

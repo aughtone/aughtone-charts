@@ -16,7 +16,6 @@ import androidx.compose.ui.graphics.Color
  * ```
  */
 object ChartDefaults {
-    @Composable
     /**
      * Builds a [ChartColors] from the current `MaterialTheme`, overriding any of its values.
      *
@@ -27,6 +26,7 @@ object ChartDefaults {
      * @param fullGasBottle Color representing a full cylinder in the gas bottle chart.
      * @param overlayLine Color of the vertical line marking the selected x-axis value.
      */
+    @Composable
     fun chartColors(
         primary: Color = MaterialTheme.colorScheme.primary,
         surface: Color = Color.Unspecified,

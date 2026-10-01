@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -8,6 +9,16 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.vanniktech.mavenPublish)
 }
+
+// Ships this library's agent skill in every sources jar, where a consumer's tooling reads it.
+tasks.withType<Zip>()
+    .matching { it.name == "sourcesJar" || it.name.endsWith("SourcesJar") }
+    .configureEach {
+        from("src/commonMain/skills") {
+            include("*/SKILL.md", "*/references/**", "*/assets/**")
+            into("commonMain/skills")
+        }
+    }
 
 group = libs.versions.namespace.get()
 version = libs.versions.versionName.get()
@@ -26,32 +37,22 @@ kotlin {
         }
     }
 
-    // See: https://kotlinlang.org/docs/js-project-setup.html
+    // Published as klibs; the consumer's build decides bundling and module system when it links.
+    // binaries.executable() is only here because Compose 1.12 refuses to run a web test that
+    // loads Skiko without a webpack bundle (CMP-4906). It changes nothing that is published.
     js {
-        browser {
-            generateTypeScriptDefinitions()
-            webpackTask {
-                output.libraryTarget = "commonjs2"
-            }
-        }
-        useEsModules() // Enables ES2015 modules
+        browser()
         binaries.executable()
     }
-    listOf(iosArm64(), iosSimulatorArm64()).forEach {
-        it.binaries.framework {
-            baseName = "AOChartsKit"
-            isStatic = true
-            binaryOption(
-                "bundleId",
-                libs.versions.namespace.get()
-            ) //"app.occurrence"
-            binaryOption(
-                "bundleShortVersionString",
-                libs.versions.versionName.get()
-            ) //"1.0.0"
-//            binaryOption("bundleVersion", libs.versions.versionCode.get().toString()) //"1"
-        }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        binaries.executable()
     }
+    // Consumed as a klib by Kotlin Multiplatform apps; no framework is built or published.
+    iosArm64()
+    iosSimulatorArm64()
 //    linuxX64()
 
     sourceSets {

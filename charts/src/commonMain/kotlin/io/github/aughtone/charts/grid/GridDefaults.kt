@@ -63,6 +63,15 @@ object GridDefaults {
         )
     }
 
+    /**
+     * A label that draws nothing.
+     *
+     * The default for [io.github.aughtone.charts.line.LineChart]'s time labels, which cannot know
+     * how a reader wants time shown. It hides any other label too, for example
+     * `yAxisLabel = GridDefaults.NoLabel`.
+     */
+    val NoLabel: @Composable (value: Any) -> Unit = {}
+
     val LegendItemLabel: @Composable (String) -> Unit = {
         Text(
             text = it,

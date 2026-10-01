@@ -2,7 +2,6 @@ package io.github.aughtone.charts.bar
 
 import androidx.compose.runtime.Immutable
 
-@Immutable
 /**
  * One cluster of bars drawn together under a single label on the x-axis.
  *
@@ -10,6 +9,7 @@ import androidx.compose.runtime.Immutable
  * @param entries The bars in this cluster. May be empty, in which case the category
  * contributes zero to the chart's y-axis range.
  */
+@Immutable
 data class BarChartCategory(
     val name: String,
     val entries: List<BarChartEntry>

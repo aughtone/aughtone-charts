@@ -3,7 +3,6 @@ package io.github.aughtone.charts.theme
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
-@Immutable
 /**
  * The palette every chart draws from, supplied through [LocalChartColors].
  *
@@ -16,6 +15,7 @@ import androidx.compose.ui.graphics.Color
  * @param fullGasBottle Color representing a full cylinder in the gas bottle chart.
  * @param overlayLine Color of the vertical line marking the selected x-axis value.
  */
+@Immutable
 data class ChartColors constructor(
     val primary: Color,
     val surface: Color,

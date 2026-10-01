@@ -1,5 +1,6 @@
 package io.github.aughtone.charts
 
+import androidx.compose.ui.graphics.Color
 import kotlin.math.abs
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -81,5 +82,16 @@ class HelpersTest {
     fun roundPassesIntegralTypesThroughUnchanged() {
         assertEquals("42", 42.round())
         assertEquals("42", 42L.round())
+    }
+
+    @Test
+    fun fadingKeepsAColorsOwnAlpha() {
+        // Regression guard: series and bubble colors had their alpha replaced by the animation's,
+        // so a transparent line drew opaque black and a translucent bubble drew solid.
+        // Compose stores an sRGB color's alpha in 8 bits, so compare to within one step of that.
+        val step = 1f / 255f
+        assertEquals(0f, Color.Transparent.fadedBy(1f).alpha)
+        assertEquals(0.25f, Color.Red.copy(alpha = 0.5f).fadedBy(0.5f).alpha, absoluteTolerance = step)
+        assertEquals(0.5f, Color.Red.fadedBy(0.5f).alpha, absoluteTolerance = step)
     }
 }
