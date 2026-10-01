@@ -16,7 +16,7 @@ description: >-
   Kotlin only.
 license: Apache-2.0
 metadata:
-  version: "0.0.2-alpha1"
+  version: "0.0.3"
   repository: https://github.com/aughtone/aughtone-charts
 ---
 
@@ -91,7 +91,7 @@ Every label is a composable parameter whose default is public, so varying one me
 
 ## What moved, and what it used to be called
 
-The previous release is `0.0.1`. These behave differently in `0.0.2-alpha1` with the same signatures:
+The previous release is `0.0.1`. These behave differently in `0.0.3` with the same signatures:
 
 - **`LineChart` and `LineChartWithLegend` no longer label time by default.** In `0.0.1` the x-axis and tooltip heading printed raw epoch milliseconds; they now draw nothing unless given a label.
 - **The y-axis contains the data.** In `0.0.1` a positive minimum rounded up, so a series from 15 to 25 got an axis of 20 to 30 with its lowest points outside the chart, and the line was drawn against the raw data range while the grid used the rounded one. The lower bound now rounds down, a zero-width range is widened, and the grid, bars and line share one mapping. Axis labels differ for ranges that do not cross zero.
@@ -102,7 +102,7 @@ The previous release is `0.0.1`. These behave differently in `0.0.2-alpha1` with
 
 **This library was Netguru's compose-multiplatform-charts.** It is a fork of that project (MIT, Copyright (c) 2022 Netguru), published as `com.netguru.multiplatform-charts:multiplatform-charts`, with `-android` and `-desktop` variants, whose code lived in `com.netguru.multiplatform.charts`. Since `0.0.1` the coordinate is `io.github.aughtone:charts` and every package is under `io.github.aughtone.charts`: an import of `com.netguru.multiplatform.charts.bar.BarChart` no longer resolves, and is `io.github.aughtone.charts.bar.BarChart`. Type and parameter names otherwise follow upstream, so code written against it differs only in its imports — though it draws differently, for the reasons above, and upstream also printed raw epoch milliseconds on the time axis.
 
-**The `*Defaults` objects are public since `0.0.1`.** `GridDefaults`, `BarChartDefaults`, `BubbleDefaults`, `DialDefaults` and `PieDefaults` were `internal` upstream; they can be called and wrapped. `GridDefaults.NoLabel` is new in `0.0.2-alpha1`.
+**The `*Defaults` objects are public since `0.0.1`.** `GridDefaults`, `BarChartDefaults`, `BubbleDefaults`, `DialDefaults` and `PieDefaults` were `internal` upstream; they can be called and wrapped. `GridDefaults.NoLabel` is new in `0.0.3`.
 
 **`Number.round` stopped emitting a trailing `.0` in `0.0.1`.** A whole number formats as `1`, where upstream produced `1.0` on JVM and Android. It shows in the default bubble and pie value labels.
 

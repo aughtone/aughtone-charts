@@ -32,7 +32,7 @@ Add the dependency to your Kotlin Multiplatform or Android project:
 
 ```kotlin
 // commonMain sourceSet dependencies
-implementation("io.github.aughtone:charts:0.0.1")
+implementation("io.github.aughtone:charts:0.0.3")
 ```
 
 ## 🚀 Usage
