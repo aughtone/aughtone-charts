@@ -5,9 +5,9 @@
 
 ![Charts Banner](assets/charts-banner.svg)
 
-Chart composables for Compose Multiplatform projects. Targets Android, JVM/Desktop, iOS and the web (Kotlin/JS and Kotlin/Wasm).
+Chart composables for Compose Multiplatform projects. Targets Android, JVM/Desktop, iOS, macOS (Apple silicon, Kotlin/Native) and the web (Kotlin/JS and Kotlin/Wasm). There is no Linux or Windows native target, because Compose UI publishes none; desktop apps on those systems use the JVM artifact. Compose for native macOS is experimental, and a project building for it opts in with `org.jetbrains.compose.experimental.macos.enabled=true` in `gradle.properties`.
 
-It is called from Kotlin only. Every chart is a `@Composable`, which Swift and JavaScript cannot call, and the library publishes no Apple framework, Swift package, npm package or `@JsExport`ed API: its iOS, JavaScript and Wasm artifacts are klibs for Kotlin consumers.
+It is called from Kotlin only. Every chart is a `@Composable`, which Swift and JavaScript cannot call, and the library publishes no Apple framework, Swift package, npm package or `@JsExport`ed API: its iOS, macOS, JavaScript and Wasm artifacts are klibs for Kotlin consumers.
 
 > [!WARNING]
 > **This library is alpha (`0.0.x`), and its API is still being worked out.** Composable signatures, config classes and the defaults objects may change between releases, and some changes will be breaking. Each one is listed in the [changelog](CHANGELOG.md).

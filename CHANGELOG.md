@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+- **Native macOS target**: The library now publishes `charts-macosarm64`, so Compose Multiplatform apps built for Apple-silicon macOS with Kotlin/Native can depend on it, and the common tests run natively on it. Compose for native macOS is experimental, so the build opts in with `org.jetbrains.compose.experimental.macos.enabled=true`. There is no `macosX64`, which Kotlin is retiring, and no Linux or Windows native target, because Compose UI, foundation, material3, components-resources, material-icons-extended and coil-compose publish none.
+
 ## [0.0.3] - 2026-09-30
 
 ### Added

@@ -2,7 +2,7 @@
 name: io-github-aughtone-charts
 description: >-
   Draw charts and graphs in Compose Multiplatform from common Kotlin code, on
-  Android, iOS, desktop (JVM) and the web (Kotlin/JS and Kotlin/Wasm): a bar or
+  Android, iOS, macOS, desktop (JVM) and the web (Kotlin/JS and Kotlin/Wasm): a bar or
   column chart with grouped bars per category, a line chart, time series or area
   chart with shaded fill and dashed lines, a pie or donut chart, a packed bubble
   chart, a gauge, meter or speedometer-style dial, a percentage dial, a tank,
@@ -24,7 +24,7 @@ metadata:
 
 ## What it solves
 
-You have numbers in a Compose Multiplatform app and you want them on screen: revenue by quarter as grouped bars, a sensor reading over time as a line with shaded area, a share breakdown as a donut, a fill level as a gauge or a tank, progress as an arc or ring, a trend as a sparkline. This library draws them as composables that share one theme, so charts across a screen look like one system, and the same code renders on Android, on the desktop, on iOS and in a browser.
+You have numbers in a Compose Multiplatform app and you want them on screen: revenue by quarter as grouped bars, a sensor reading over time as a line with shaded area, a share breakdown as a donut, a fill level as a gauge or a tank, progress as an arc or ring, a trend as a sparkline. This library draws them as composables that share one theme, so charts across a screen look like one system, and the same code renders on Android, on the desktop through the JVM or natively on macOS, on iOS and in a browser.
 
 It covers the drawing — axes, grid, bars, lines, donut segments, a packed bubble cloud, a half-circle dial, a cylinder gauge, and small axis-free sparklines — and the labels, legends and touch tooltip around it. It does not fetch, aggregate or reshape data: you hand it values already computed.
 
@@ -108,7 +108,7 @@ The previous release is `0.0.1`. These behave differently in `0.0.3` with the sa
 
 ## What it is not for
 
-It is called from Kotlin only. Every chart is a `@Composable`, which Swift and JavaScript cannot call, and the library publishes nothing for them: no Apple framework, XCFramework, Swift package or pod, and no npm package, TypeScript definitions or `@JsExport`ed API. Its iOS, JavaScript and Wasm artifacts are klibs for Kotlin consumers. A Compose Multiplatform app uses it from Kotlin on every platform; a SwiftUI or UIKit app, or a JavaScript or TypeScript app, gets nothing from it, and its data classes are not a model to share with native Swift code.
+It is called from Kotlin only. Every chart is a `@Composable`, which Swift and JavaScript cannot call, and the library publishes nothing for them: no Apple framework, XCFramework, Swift package or pod, and no npm package, TypeScript definitions or `@JsExport`ed API. Its iOS, macOS, JavaScript and Wasm artifacts are klibs for Kotlin consumers. There is no Linux or Windows native target, because Compose UI publishes none, so a Kotlin/Native program on those systems cannot depend on it; a desktop app there uses the JVM artifact. A Compose Multiplatform app uses it from Kotlin on every platform; a SwiftUI or UIKit app, or a JavaScript or TypeScript app, gets nothing from it, and its data classes are not a model to share with native Swift code.
 
 It draws charts; it does not analyse data. There is no aggregation, downsampling, statistics, date bucketing or currency formatting — compute those before building the data classes.
 

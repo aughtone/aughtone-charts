@@ -53,7 +53,10 @@ kotlin {
     // Consumed as a klib by Kotlin Multiplatform apps; no framework is built or published.
     iosArm64()
     iosSimulatorArm64()
-//    linuxX64()
+    macosArm64()
+    // No linuxX64, linuxArm64 or mingwX64: Compose UI, foundation, material3, components-resources,
+    // material-icons-extended and coil-compose publish no Linux or Windows native variants.
+    // No macosX64: Kotlin is retiring it.
 
     sourceSets {
         commonMain.dependencies {
