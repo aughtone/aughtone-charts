@@ -6,7 +6,9 @@ import androidx.compose.ui.unit.Dp
 /**
  * The customization parameters for [PieChart]
  *
- * @param thickness Width of the arc
+ * @param thickness Width of the ring each segment is drawn as. The default, [PieDefaults.THICKNESS],
+ * is [androidx.compose.ui.unit.Dp.Infinity], which fills the circle as a solid pie; a finite
+ * width draws a donut, and is capped at the chart's radius.
  * @param gap The margin between segments
  * @param legendPadding The space between chart and legend in both orientations
  * @param legendIcon The type of icon in legend [LegendIcon]

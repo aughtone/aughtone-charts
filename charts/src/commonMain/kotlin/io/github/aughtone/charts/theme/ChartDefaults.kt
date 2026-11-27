@@ -20,7 +20,8 @@ object ChartDefaults {
      * Builds a [ChartColors] from the current `MaterialTheme`, overriding any of its values.
      *
      * @param primary Color of drawn data where a chart does not take its colors from data.
-     * @param surface Background of the overlay shown on touch or click.
+     * @param surface Background of the overlay shown on touch or click. Defaults to the theme's
+     * `surfaceContainerHigh`, so the overlay stands off a chart drawn on the theme's surface.
      * @param grid Color of the axis grid lines.
      * @param emptyGasBottle Color representing an empty cylinder in the gas bottle chart.
      * @param fullGasBottle Color representing a full cylinder in the gas bottle chart.
@@ -29,7 +30,7 @@ object ChartDefaults {
     @Composable
     fun chartColors(
         primary: Color = MaterialTheme.colorScheme.primary,
-        surface: Color = Color.Unspecified,
+        surface: Color = MaterialTheme.colorScheme.surfaceContainerHigh,
         grid: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
         emptyGasBottle: Color = MaterialTheme.colorScheme.error,
         fullGasBottle: Color = MaterialTheme.colorScheme.primary,

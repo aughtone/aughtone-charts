@@ -31,7 +31,8 @@ import kotlin.random.Random
  * [Bubble.radius].
  *
  * Radii are scaled so the largest bubble is drawn at the maximum size the chart allows and the
- * smallest at [BubbleDefaults.MINIMUM_BUBBLE_RADIUS]. A single bubble, or bubbles that all share
+ * smallest at [BubbleDefaults.MINIMUM_BUBBLE_RADIUS], or at half the largest on a chart under
+ * 320 dp across, where the minimum would crowd the largest. A single bubble, or bubbles that all share
  * one radius, are all drawn at the maximum size. An empty list draws nothing.
  *
  * The chart lays out copies of [bubbles], so the instances passed in are never moved and can be
@@ -79,13 +80,14 @@ fun BubbleChart(
         val bubblePacking = remember(bubbles, size, distanceBetweenCircles) {
             val largestRadius = bubbles.maxOf { it.radius }
             val smallestRadius = bubbles.minOf { it.radius }
+            val (minRadiusPossible, maxRadiusPossible) = bubbleRadiusBounds(size)
             BubblePacking(
                 data = bubbles.map {
                     it.withRadiusRelativeTo(
                         smallestRadius = smallestRadius,
                         largestRadius = largestRadius,
-                        minRadiusPossible = MINIMUM_BUBBLE_RADIUS,
-                        maxRadiusPossible = size / 4f
+                        minRadiusPossible = minRadiusPossible,
+                        maxRadiusPossible = maxRadiusPossible,
                     )
                 },
                 containerSize = Size(size, size),
@@ -107,6 +109,18 @@ fun BubbleChart(
             }
         }
     }
+}
+
+/**
+ * The radii, in dp, that the smallest and largest bubble are drawn at in a chart [size] dp square.
+ *
+ * The largest bubble is a quarter of the chart. The smallest is [MINIMUM_BUBBLE_RADIUS], or half
+ * the largest on a chart too small to hold that, so it never outgrows the largest: a fixed minimum
+ * above the maximum would invert the scale and draw the smallest value as the biggest bubble.
+ */
+internal fun bubbleRadiusBounds(size: Float): Pair<Float, Float> {
+    val largest = size / 4f
+    return min(MINIMUM_BUBBLE_RADIUS, largest / 2f) to largest
 }
 
 /**

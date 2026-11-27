@@ -175,10 +175,7 @@ fun LineChart(
                                     event.changes[0].position.x
                                 }
 
-                                event.changes.any {
-                                    it.consume()
-                                    true
-                                }
+                                event.changes.forEach { it.consume() }
                             }
                         }
                     }

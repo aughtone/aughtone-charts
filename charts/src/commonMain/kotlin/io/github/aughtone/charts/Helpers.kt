@@ -115,12 +115,20 @@ private fun String.withoutTrailingZero(): String =
  */
 internal fun Color.fadedBy(factor: Float): Color = copy(alpha = alpha * factor)
 
+/**
+ * Whether a chart's entry animation should be at its end, for driving its animated values.
+ *
+ * False for the first frame after the chart composes, and again after [data] changes, then true,
+ * so the chart animates in each time. Always true for [ChartAnimation.Disabled]. The effect that
+ * sets it is keyed on [data] as the flag is: keyed on less, new data would reset the flag and
+ * nothing would set it again, leaving the chart animated out.
+ */
 @Composable
 internal fun StartAnimation(animation: ChartAnimation, data: Any): Boolean {
     var animationPlayed by remember(data) {
         mutableStateOf(animation is ChartAnimation.Disabled)
     }
-    LaunchedEffect(Unit) {
+    LaunchedEffect(data) {
         animationPlayed = true
     }
 

@@ -5,11 +5,22 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.random.Random
 
-/*
-This class implements simple circle packing algorithm based on simple physics engine.
-At the beginning all circles are put in the center. Collisions are checked between each circle.
-If two circles collide, collision forces are applied and circles are moved. This check is done for every circle.
-Algorithm stops when none of the circles collides.
+/**
+ * Lays out bubbles with a simple physics-based circle packing, for [BubbleChart].
+ *
+ * Every bubble starts in the centre with a random velocity. Each pass checks every pair for
+ * collision, pushes colliding bubbles apart and keeps them inside [containerSize]. A counter
+ * rises for each bubble moved while some bubble is still moving and falls for each one moved
+ * while none is; packing stops when it reaches zero, or after [TIMEOUT_ITERATIONS] passes. It
+ * does not check for overlap before stopping, so bubbles can still overlap, and
+ * [distanceBetweenBubbles] is the gap it aims for rather than one it guarantees. The result is
+ * then scaled to fill [containerSize].
+ *
+ * The bubbles passed in are moved and resized in place; [BubbleChart] passes it copies.
+ *
+ * @param data Bubbles to lay out, already sized relative to one another.
+ * @param containerSize Size of the square the bubbles are packed into.
+ * @param distanceBetweenBubbles Gap to keep between neighbouring bubbles. Negative values overlap.
  */
 class BubblePacking(
     data: List<Bubble>,
