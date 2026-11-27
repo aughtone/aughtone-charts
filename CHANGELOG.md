@@ -6,12 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.0.4] - 2026-11-26
+
 ### Added
 - **Native macOS target**: The library now publishes `charts-macosarm64`, so Compose Multiplatform apps built for Apple-silicon macOS with Kotlin/Native can depend on it, and the common tests run natively on it. Compose for native macOS is experimental, so the build opts in with `org.jetbrains.compose.experimental.macos.enabled=true`. There is no `macosX64`, which Kotlin is retiring, and no Linux or Windows native target, because Compose UI, foundation, material3, components-resources, material-icons-extended and coil-compose publish none.
 
 ### Changed
 - **`ChartDefaults.chartColors()` gives the tooltip a background**: `surface` defaulted to `Color.Unspecified`, so the touch tooltip on `BarChart` and `LineChart` drew its text over the chart with no background. It now defaults to the theme's `surfaceContainerHigh`.
 - **Bubble sizes on charts under 320 dp across**: the smallest bubble is now drawn at half the size of the largest there, instead of at `BubbleDefaults.MINIMUM_BUBBLE_RADIUS`. Bubbles on charts between 160 and 320 dp across therefore show more contrast in size than before.
+- **The shipped agent skill describes `0.0.4`**: what changed since `0.0.3`, and that `PieChart` is a solid disc unless given a finite thickness.
 
 ### Fixed
 - **`PieChart` with `ChartAnimation.Disabled` drew a one-degree sliver**: its segments shared one degree instead of the full circle.

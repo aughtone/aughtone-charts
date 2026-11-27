@@ -32,7 +32,7 @@ Add the dependency to your Kotlin Multiplatform or Android project:
 
 ```kotlin
 // commonMain sourceSet dependencies
-implementation("io.github.aughtone:charts:0.0.3")
+implementation("io.github.aughtone:charts:0.0.4")
 ```
 
 ## 🚀 Usage
@@ -53,7 +53,7 @@ Most of the components have arguments like:
  - **data** - depends on chart type it's complex dataset or few primitives arguments
  - **colors** - gives the possibility to change colors of the chart. In some cases the colors are stored in datasets (like in BarChart or LineChart). See [theming](#-theming) section to set same appearance to all charts.
  - **config** - allows to personalize charts. Depends on chart type it can modify different parts of component. See documentation of specific chart
- - **animation** - the way how chart should appear at the first time
+ - **animation** - how the chart animates in when it first appears, and again each time its data changes. `ChartAnimation.Disabled` draws it at once.
 
 ### BarChart
 ![Bar chart](assets/bar-chart.png)
@@ -293,7 +293,7 @@ PieChart(
 )
 ```
 
-By default the thickness is `Dp.Infinity`, it means the chart will be fully filled.
+By default the thickness is `Dp.Infinity`, which draws a solid pie. A finite thickness draws a donut with a ring that wide, capped at the radius.
 
 ### Simple charts
 
@@ -348,7 +348,7 @@ fun AppTheme(
 }
 
 ```
-There is also default ChartColors provided by the library. It uses the default color set from `MaterialTheme`.
+There is also a default palette provided by the library. It derives every color from the current `MaterialTheme`, with the tooltip background taken from `surfaceContainerHigh`.
 ```kotlin
 LocalChartColors provides ChartDefaults.chartColors()
 ```

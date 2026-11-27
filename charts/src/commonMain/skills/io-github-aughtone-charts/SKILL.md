@@ -16,7 +16,7 @@ description: >-
   Kotlin only.
 license: Apache-2.0
 metadata:
-  version: "0.0.3"
+  version: "0.0.4"
   repository: https://github.com/aughtone/aughtone-charts
 ---
 
@@ -46,7 +46,7 @@ CompositionLocalProvider(LocalChartColors provides ChartDefaults.chartColors()) 
 }
 ```
 
-`ChartDefaults.chartColors()` derives the palette from the current Material 3 theme; construct a `ChartColors` to choose one yourself. Axis ranges come from the data. Bar colors live on `BarChartEntry` and line colors on `LineChartSeries`; a chart's `colors` parameter styles only its grid and touch tooltip.
+`ChartDefaults.chartColors()` derives the palette from the current Material 3 theme, with the tooltip background from `surfaceContainerHigh`; construct a `ChartColors` to choose one yourself. Axis ranges come from the data. Bar colors live on `BarChartEntry` and line colors on `LineChartSeries`; a chart's `colors` parameter styles only its grid and touch tooltip.
 
 Time series take each point's `x` as a timestamp in epoch milliseconds:
 
@@ -81,7 +81,9 @@ Every label is a composable parameter whose default is public, so varying one me
 
 **The per-chart color classes have no default arguments.** Symptom: a compile error that `surface` was not passed. `BarChartColors(grid = Color.LightGray)` does not compile; the same holds for `LineChartColors`, `DialColors` and `GasBottleColors`. Narrow a full palette instead: `ChartColors(...).barChartColors`.
 
-**A bubble's size comes from `radius`, not `value`.** Symptom: bubbles whose sizes disagree with the numbers in them. `radius` defaults to `value`, and only the ratios between radii matter: the largest bubble is drawn at the maximum size and the smallest at the minimum. A single bubble, or bubbles that share one radius, are all drawn at the maximum size; an empty list draws nothing.
+**`PieChart` is a solid disc, not a donut.** Symptom: a filled pie where you wanted a ring. `PieChartConfig.thickness` defaults to `Dp.Infinity`; give it a finite width, such as `40.dp`, to draw a donut with a ring that wide. Widths beyond the radius draw a solid pie.
+
+**A bubble's size comes from `radius`, not `value`.** Symptom: bubbles whose sizes disagree with the numbers in them. `radius` defaults to `value`, and only the ratios between radii matter: the largest bubble is drawn at a quarter of the chart's shorter side and the smallest at `BubbleDefaults.MINIMUM_BUBBLE_RADIUS`, or at half the largest on a chart under 320 dp across. A single bubble, or bubbles that share one radius, are all drawn at the maximum size; an empty list draws nothing.
 
 **A `Bubble`'s `position` is not where it was drawn.** Symptom: every bubble you hold reports a position at the origin. `BubbleChart` lays out copies, so your instances are never moved and one list can be shared between charts. The layout is seeded at random whenever the chart first composes or its bubbles, size or spacing change.
 
@@ -91,7 +93,18 @@ Every label is a composable parameter whose default is public, so varying one me
 
 ## What moved, and what it used to be called
 
-The previous release is `0.0.1`. These behave differently in `0.0.3` with the same signatures:
+The previous release is `0.0.3`. These behave differently in `0.0.4` with the same signatures:
+
+- **Charts animate in again when their data changes.** In `0.0.3` the entry animation reset on new data but never replayed, so `BarChart`, `LineChart`, `PieChart`, `BubbleChart`, `Dial` and `GasBottle` went blank after their first data unless the animation was `ChartAnimation.Disabled`. Wrapping a chart in `key(data) { }`, or disabling its animation, to keep it visible is no longer needed.
+- **`PieChart` with `ChartAnimation.Disabled` draws the whole circle.** In `0.0.3` its segments shared a one-degree sliver.
+- **`ChartDefaults.chartColors()` gives the tooltip a background.** Its `surface` was `Color.Unspecified` in `0.0.3`, so the touch tooltip had none; it is now the theme's `surfaceContainerHigh`.
+- **Bubbles on small charts are sized the right way round.** In `0.0.3` the smallest bubble was always drawn at a 40 dp radius, so on a chart under 160 dp across the smallest value got the biggest bubble. On charts under 320 dp the smallest is now half the largest.
+- **An empty `LineChartSeries` leaves the axes alone.** In `0.0.3`, beside a series with points, it pulled the time axis back to the epoch and the y-axis down to zero.
+- **`LineChart` consumes every finger of a touch.** In `0.0.3` it consumed only the first, so further fingers reached the containers around it.
+- **`SimpleLineChart`'s `extendAndClipEnds` clips.** In `0.0.3` the extended ends were drawn past the chart's left and right edges.
+- **A native macOS target is published**, as `charts-macosarm64`.
+
+These changed in `0.0.3`, against `0.0.1`:
 
 - **`LineChart` and `LineChartWithLegend` no longer label time by default.** In `0.0.1` the x-axis and tooltip heading printed raw epoch milliseconds; they now draw nothing unless given a label.
 - **The y-axis contains the data.** In `0.0.1` a positive minimum rounded up, so a series from 15 to 25 got an axis of 20 to 30 with its lowest points outside the chart, and the line was drawn against the raw data range while the grid used the rounded one. The lower bound now rounds down, a zero-width range is widened, and the grid, bars and line share one mapping. Axis labels differ for ranges that do not cross zero.
