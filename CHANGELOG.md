@@ -9,6 +9,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - **Native macOS target**: The library now publishes `charts-macosarm64`, so Compose Multiplatform apps built for Apple-silicon macOS with Kotlin/Native can depend on it, and the common tests run natively on it. Compose for native macOS is experimental, so the build opts in with `org.jetbrains.compose.experimental.macos.enabled=true`. There is no `macosX64`, which Kotlin is retiring, and no Linux or Windows native target, because Compose UI, foundation, material3, components-resources, material-icons-extended and coil-compose publish none.
 
+### Changed
+- **`ChartDefaults.chartColors()` gives the tooltip a background**: `surface` defaulted to `Color.Unspecified`, so the touch tooltip on `BarChart` and `LineChart` drew its text over the chart with no background. It now defaults to the theme's `surfaceContainerHigh`.
+- **Bubble sizes on charts under 320 dp across**: the smallest bubble is now drawn at half the size of the largest there, instead of at `BubbleDefaults.MINIMUM_BUBBLE_RADIUS`. Bubbles on charts between 160 and 320 dp across therefore show more contrast in size than before.
+
+### Fixed
+- **`PieChart` with `ChartAnimation.Disabled` drew a one-degree sliver**: its segments shared one degree instead of the full circle.
+- **A chart whose data changed went blank**: the entry animation reset when the data changed but never played again, so `BarChart`, `LineChart`, `PieChart`, `BubbleChart`, `Dial` and `GasBottle` stayed animated out after their first data unless the animation was disabled.
+- **Bubbles were sized backwards on charts under 160 dp across**: the minimum radius was larger than the maximum, so the smallest value got the biggest bubble.
+- **An empty `LineChartSeries` stretched the axes**: beside a series with points, it pulled the time axis back to the epoch and the y-axis down to zero. An empty series no longer affects either axis.
+- **`LineChart` consumed only the first pointer of a touch**: further fingers passed through to the containers around the chart.
+- **`SimpleLineChart`'s `extendAndClipEnds` did not clip**: the extended ends were drawn past the chart's edges. They are now cut at the left and right edges.
+- **Documentation**: `BarChartConfig.thickness` is the widest a bar is drawn, not its width; `PieChart` is solid unless given a finite `PieChartConfig.thickness`, not a donut; and `BubblePacking` stops on a counter or after 5000 passes, not once no bubble collides.
+
 ## [0.0.3] - 2026-09-30
 
 ### Added

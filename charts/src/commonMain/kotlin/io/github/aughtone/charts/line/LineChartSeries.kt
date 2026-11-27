@@ -22,7 +22,7 @@ data class LineChartPoint(
  * One line within a [LineChartData], together with how it is drawn.
  *
  * The bounds are derived from [listOfPoints] when the series is constructed, and are all zero
- * for an empty series.
+ * for an empty series. [LineChartData] leaves an empty series out of its axis ranges.
  *
  * @param dataName Name of the series, shown in the legend and the touch overlay.
  * @param lineWidth Thickness of the drawn line.
@@ -82,9 +82,11 @@ data class LineChartSeries(
 /**
  * Data for [LineChart]: one or more series sharing a single pair of axes.
  *
- * The axis ranges span every series and are derived when the data is constructed.
+ * The axis ranges span every series that has points, and are derived when the data is constructed.
+ * An empty series draws nothing and does not affect them.
  *
- * @param series Lines to draw. May be empty, in which case every bound is zero.
+ * @param series Lines to draw. May be empty, or hold only empty series, in which case every bound
+ * is zero.
  */
 @Immutable
 data class LineChartData(
@@ -109,7 +111,8 @@ data class LineChartData(
         // find max and min in all data
         val timeStamps = mutableListOf<Long>()
         val values = mutableListOf<Float>()
-        series.forEach {
+        // An empty series reports zero bounds, which would drag the axes to the epoch and to zero.
+        series.filter { it.listOfPoints.isNotEmpty() }.forEach {
             timeStamps.add(it.minTimestamp)
             timeStamps.add(it.maxTimeStamp)
             values.add(it.minValue)

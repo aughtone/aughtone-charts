@@ -13,7 +13,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -31,9 +33,10 @@ import androidx.compose.ui.unit.dp
  *                    If false, it assumes dataPoints are already normalized between 0f (bottom) and 1f (top).
  * @param useCurvedLines If true, draws smooth curves through the points instead of straight lines.
  *                       For 2 points, a straight line is drawn.
- * @param extendAndClipEnds If true, the line ends are extended slightly beyond the component
- *                          boundaries and clipped, creating a clean edge. This is most
- *                          effective when lineStrokeWidth > 0.
+ * @param extendAndClipEnds If true, the line ends are extended by half the stroke width beyond
+ *                          the left and right edges and clipped there, so the line meets both
+ *                          edges flush instead of ending in a rounded cap inside them. The top
+ *                          and bottom are not clipped. Has no effect when lineStrokeWidth is 0.
  */
 @Composable
 fun SimpleLineChart(
@@ -101,43 +104,57 @@ fun SimpleLineChart(
             Offset(x, y)
         }
 
-        if (useCurvedLines) {
-            val path = Path()
-            path.moveTo(canvasPoints[0].x, canvasPoints[0].y)
+        fun DrawScope.drawSeries() {
+            if (useCurvedLines) {
+                val path = Path()
+                path.moveTo(canvasPoints[0].x, canvasPoints[0].y)
 
-            if (canvasPoints.size == 2) { // Straight line for 2 points
-                path.lineTo(canvasPoints[1].x, canvasPoints[1].y)
-            } else { // More than 2 points, use curves
-                val tension = 0.2f
+                if (canvasPoints.size == 2) { // Straight line for 2 points
+                    path.lineTo(canvasPoints[1].x, canvasPoints[1].y)
+                } else { // More than 2 points, use curves
+                    val tension = 0.2f
+                    for (i in 0 until canvasPoints.size - 1) {
+                        val p_i = canvasPoints[i]
+                        val p_i_plus_1 = canvasPoints[i + 1]
+                        val p_i_minus_1 = canvasPoints.getOrElse(i - 1) { p_i }
+                        val p_i_plus_2 = canvasPoints.getOrElse(i + 2) { p_i_plus_1 }
+
+                        val cp1_x = p_i.x + (p_i_plus_1.x - p_i_minus_1.x) * tension
+                        val cp1_y = p_i.y + (p_i_plus_1.y - p_i_minus_1.y) * tension
+                        val cp2_x = p_i_plus_1.x - (p_i_plus_2.x - p_i.x) * tension
+                        val cp2_y = p_i_plus_1.y - (p_i_plus_2.y - p_i.y) * tension
+
+                        path.cubicTo(cp1_x, cp1_y, cp2_x, cp2_y, p_i_plus_1.x, p_i_plus_1.y)
+                    }
+                }
+                drawPath(
+                    path = path,
+                    color = lineColor,
+                    style = Stroke(width = lineThicknessPx, cap = StrokeCap.Round)
+                )
+            } else { // Draw straight lines
                 for (i in 0 until canvasPoints.size - 1) {
-                    val p_i = canvasPoints[i]
-                    val p_i_plus_1 = canvasPoints[i + 1]
-                    val p_i_minus_1 = canvasPoints.getOrElse(i - 1) { p_i }
-                    val p_i_plus_2 = canvasPoints.getOrElse(i + 2) { p_i_plus_1 }
-
-                    val cp1_x = p_i.x + (p_i_plus_1.x - p_i_minus_1.x) * tension
-                    val cp1_y = p_i.y + (p_i_plus_1.y - p_i_minus_1.y) * tension
-                    val cp2_x = p_i_plus_1.x - (p_i_plus_2.x - p_i.x) * tension
-                    val cp2_y = p_i_plus_1.y - (p_i_plus_2.y - p_i.y) * tension
-
-                    path.cubicTo(cp1_x, cp1_y, cp2_x, cp2_y, p_i_plus_1.x, p_i_plus_1.y)
+                    drawLine(
+                        color = lineColor,
+                        start = canvasPoints[i],
+                        end = canvasPoints[i + 1],
+                        strokeWidth = lineThicknessPx,
+                        cap = StrokeCap.Round
+                    )
                 }
             }
-            drawPath(
-                path = path,
-                color = lineColor,
-                style = Stroke(width = lineThicknessPx, cap = StrokeCap.Round)
-            )
-        } else { // Draw straight lines
-            for (i in 0 until canvasPoints.size - 1) {
-                drawLine(
-                    color = lineColor,
-                    start = canvasPoints[i],
-                    end = canvasPoints[i + 1],
-                    strokeWidth = lineThicknessPx,
-                    cap = StrokeCap.Round
-                )
-            }
+        }
+
+        if (xOffset < 0f) {
+            // Cut only the extended ends; a stroke along the top or bottom keeps its full width.
+            clipRect(
+                left = 0f,
+                top = -lineThicknessPx,
+                right = currentVisibleWidth,
+                bottom = size.height + lineThicknessPx,
+            ) { drawSeries() }
+        } else {
+            drawSeries()
         }
     }
 }

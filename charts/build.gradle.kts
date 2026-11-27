@@ -76,12 +76,15 @@ kotlin {
 
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.jetbrains.compose.ui.test)
         }
 
         jvmTest.dependencies {
             // kotlin-reflect is the only way to read Kotlin visibility: an `internal` object
             // compiles to a public class, so Java reflection cannot tell the two apart.
             implementation(kotlin("reflect"))
+            // Skia for the host, which the Compose UI tests render with on the JVM.
+            implementation(compose.desktop.currentOs)
         }
 
         androidMain.dependencies {

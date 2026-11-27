@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.Color
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotSame
+import kotlin.test.assertTrue
 
 class BubbleSizingTest {
 
@@ -42,6 +43,21 @@ class BubbleSizingTest {
 
         assertNotSame(original, scaled)
         assertEquals(10f, original.radius)
+    }
+
+    @Test
+    fun theSmallestBubbleIsNeverLargerThanTheLargest() {
+        // Regression guard: the minimum radius was fixed at 40 while the maximum was a quarter of
+        // the chart, so below 160 dp the smallest value got the largest bubble.
+        for (size in listOf(60f, 120f, 159f, 160f, 200f, 320f, 640f)) {
+            val (min, max) = bubbleRadiusBounds(size)
+            assertTrue(min < max, "at $size the bounds were $min..$max")
+        }
+    }
+
+    @Test
+    fun aLargeChartKeepsTheStockBounds() {
+        assertEquals(BubbleDefaults.MINIMUM_BUBBLE_RADIUS to 160f, bubbleRadiusBounds(640f))
     }
 
     private companion object {

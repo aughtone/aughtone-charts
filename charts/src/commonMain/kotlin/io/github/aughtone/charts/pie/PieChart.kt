@@ -38,7 +38,10 @@ import kotlin.math.sin
 data class PieChartData(val name: String, val value: Double, val color: Color)
 
 /**
- * Donut shaped 2D pie chart, portraying the values based on the ratios between them.
+ * 2D pie chart, portraying the values based on the ratios between them.
+ *
+ * Drawn as a solid disc by default; give [PieChartConfig.thickness] a finite width to draw a
+ * donut instead.
  *
  * This chart uses no labels to describe the data. In case labels are needed, use
  * [PieChartWithLegend]
@@ -58,21 +61,7 @@ fun PieChart(
     animation: ChartAnimation = ChartAnimation.Simple(),
     config: PieChartConfig = PieChartConfig(),
 ) {
-    val animationPlayed = StartAnimation(animation, data)
-    val maxAngle = when (animation) {
-        ChartAnimation.Disabled -> {
-            1f
-        }
-        is ChartAnimation.Simple -> {
-            animateFloatAsState(
-                targetValue = if (animationPlayed) FULL_CIRCLE_DEGREES else 0f,
-                animationSpec = animation.animationSpec()
-            ).value
-        }
-        is ChartAnimation.Sequenced -> {
-            throw UnsupportedOperationException("ChartAnimation.Sequenced is currently not supported for PieChart!")
-        }
-    }
+    val maxAngle = animatedPieSweep(animation, data)
 
     val sumOfData by remember(data) {
         mutableStateOf(data.sumOf { it.value })
@@ -110,6 +99,28 @@ fun PieChart(
                 }
             }
     )
+}
+
+/**
+ * The angle, in degrees, the segments of a [PieChart] currently share between them.
+ *
+ * Grows from zero to a full circle as [animation] plays, and is a full circle at once for
+ * [ChartAnimation.Disabled].
+ *
+ * @throws UnsupportedOperationException when [ChartAnimation.Sequenced] is used
+ */
+@Composable
+internal fun animatedPieSweep(animation: ChartAnimation, data: List<PieChartData>): Float {
+    val animationPlayed = StartAnimation(animation, data)
+    return when (animation) {
+        ChartAnimation.Disabled -> FULL_CIRCLE_DEGREES
+        is ChartAnimation.Simple -> animateFloatAsState(
+            targetValue = if (animationPlayed) FULL_CIRCLE_DEGREES else 0f,
+            animationSpec = animation.animationSpec()
+        ).value
+        is ChartAnimation.Sequenced ->
+            throw UnsupportedOperationException("ChartAnimation.Sequenced is currently not supported for PieChart!")
+    }
 }
 
 private fun calculateSweepAngles(data: List<PieChartData>, sumOfData: Double, maxAngle: Float) =

@@ -7,7 +7,8 @@ import io.github.aughtone.charts.grid.GridDefaults
 /**
  * The customization parameters for [BarChart]
  *
- * @param thickness Width of a single bar
+ * @param thickness Widest a single bar is drawn. Bars are narrowed to fit their category when the
+ * chart is too narrow for this width, down to one pixel.
  * @param cornerRadius 0 for square bars, thickness/2 for fully rounded corners
  * @param barsSpacing The space between bars in a cluster
  * @param maxHorizontalLinesCount Roughly how many horizontal grid lines to draw. Their spacing is
